@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>VoicesIQ Dental - Practice Management Demo</title>
+  <meta name="description" content="AI-powered dental practice management app demo">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 222.2 84% 4.9%;
+      --card: 0 0% 100%;
+      --card-foreground: 222.2 84% 4.9%;
+      --primary: 199 89% 48%;
+      --primary-foreground: 0 0% 100%;
+      --secondary: 210 40% 96.1%;
+      --secondary-foreground: 222.2 47.4% 11.2%;
+      --muted: 210 40% 96.1%;
+      --muted-foreground: 215.4 16.3% 46.9%;
+      --accent: 210 40% 96.1%;
+      --accent-foreground: 222.2 47.4% 11.2%;
+      --destructive: 0 84.2% 60.2%;
+      --destructive-foreground: 0 0% 100%;
+      --border: 214.3 31.8% 91.4%;
+      --radius: 0.75rem;
+      --excellent: 142 76% 36%;
+      --excellent-foreground: 0 0% 100%;
+      --warning: 38 92% 50%;
+      --warning-foreground: 0 0% 100%;
+      --critical: 0 84% 60%;
+      --critical-foreground: 0 0% 100%;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: hsl(var(--background));
+      color: hsl(var(--foreground));
+      min-height: 100vh;
+      max-width: 430px;
+      margin: 0 auto;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .header {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .menu-btn, .notification-btn {
+      background: transparent;
+      border: none;
+      color: hsl(var(--primary-foreground));
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-btn:hover, .notification-btn:hover {
+      background: hsla(0, 0%, 100%, 0.1);
+    }
+
+    .logo {
+      height: 32px;
+    }
+
+    .notification-btn {
+      position: relative;
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 8px;
+      height: 8px;
+      background: hsl(var(--critical));
+      border-radius: 50%;
+    }
+
+    /* Welcome Section */
+    .welcome-section {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      padding: 0 1rem 2rem;
+    }
+
+    .welcome-content {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 3px solid hsla(0, 0%, 100%, 0.3);
+      object-fit: cover;
+    }
+
+    .welcome-text h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .welcome-text p {
+      font-size: 0.875rem;
+      opacity: 0.9;
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 1rem;
+      margin-top: -1rem;
+      background: hsl(var(--background));
+      border-radius: var(--radius) var(--radius) 0 0;
+      min-height: calc(100vh - 200px);
+      padding-bottom: 5rem;
+    }
+
+    /* Cards */
+    .card {
+      background: hsl(var(--card));
+      border-radius: var(--radius);
+      box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid hsl(var(--border));
+    }
+
+    .card-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-content {
+      padding: 1rem;
+    }
+
+    /* Schedule Card */
+    .schedule-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid hsl(var(--border));
+    }
+
+    .schedule-item:last-child {
+      border-bottom: none;
+    }
+
+    .schedule-time {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .schedule-info h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.125rem;
+    }
+
+    .schedule-info p {
+      font-size: 0.75rem;
+      color: hsl(var(--muted-foreground));
+    }
+
+    /* Emergency Alert */
+    .emergency-card {
+      background: linear-gradient(135deg, hsl(var(--critical)), hsl(0, 70%, 50%));
+      color: white;
+    }
+
+    .emergency-card .card-header {
+      border-bottom-color: hsla(0, 0%, 100%, 0.2);
+    }
+
+    .emergency-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: hsla(0, 0%, 100%, 0.1);
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .emergency-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .emergency-icon {
+      background: hsla(0, 0%, 100%, 0.2);
+      padding: 0.5rem;
+      border-radius: 50%;
+    }
+
+    .emergency-info h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .emergency-info p {
+      font-size: 0.75rem;
+      opacity: 0.9;
+    }
+
+    .criticality-badge {
+      font-size: 0.625rem;
+      padding: 0.125rem 0.5rem;
+      background: hsla(0, 0%, 100%, 0.2);
+      border-radius: 1rem;
+      margin-top: 0.25rem;
+      display: inline-block;
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+
+    .action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 0.5rem;
+      background: hsl(var(--secondary));
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-btn:hover {
+      background: hsl(var(--muted));
+      transform: translateY(-2px);
+    }
+
+    .action-btn i {
+      color: hsl(var(--primary));
+    }
+
+    .action-btn span {
+      font-size: 0.625rem;
+      font-weight: 500;
+      color: hsl(var(--foreground));
+      text-align: center;
+    }
+
+    /* Practice Pulse */
+    .pulse-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .pulse-item {
+      background: hsl(var(--secondary));
+      padding: 1rem;
+      border-radius: var(--radius);
+      text-align: center;
+    }
+
+    .pulse-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: hsl(var(--primary));
+      margin-bottom: 0.25rem;
+    }
+
+    .pulse-label {
+      font-size: 0.75rem;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .pulse-change {
+      font-size: 0.625rem;
+      margin-top: 0.25rem;
+    }
+
+    .pulse-change.positive {
+      color: hsl(var(--excellent));
+    }
+
+    .pulse-change.negative {
+      color: hsl(var(--critical));
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.625rem;
+      font-weight: 600;
+      border-radius: 1rem;
+    }
+
+    .badge-pending {
+      background: hsl(var(--warning));
+      color: hsl(var(--warning-foreground));
+    }
+
+    .badge-ready {
+      background: hsl(var(--excellent));
+      color: hsl(var(--excellent-foreground));
+    }
+
+    .badge-critical {
+      background: hsl(var(--critical));
+      color: hsl(var(--critical-foreground));
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+      background: hsl(var(--card));
+      border-top: 1px solid hsl(var(--border));
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+      z-index: 50;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: hsl(var(--muted-foreground));
+      transition: color 0.2s;
+    }
+
+    .nav-item.active {
+      color: hsl(var(--primary));
+    }
+
+    .nav-item span {
+      font-size: 0.625rem;
+      font-weight: 500;
+    }
+
+    /* Prescriptions List */
+    .prescription-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      border-bottom: 1px solid hsl(var(--border));
+    }
+
+    .prescription-item:last-child {
+      border-bottom: none;
+    }
+
+    .prescription-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: hsl(var(--primary) / 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: hsl(var(--primary));
+    }
+
+    .prescription-info {
+      flex: 1;
+    }
+
+    .prescription-info h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.125rem;
+    }
+
+    .prescription-info p {
+      font-size: 0.75rem;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .prescription-med {
+      background: hsl(var(--secondary));
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .prescription-med strong {
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      color: hsl(var(--foreground));
+    }
+
+    .prescription-med span {
+      font-size: 0.625rem;
+      color: hsl(var(--muted-foreground));
+      display: block;
+      margin-top: 0.25rem;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid hsl(var(--border));
+      color: hsl(var(--foreground));
+    }
+
+    .btn-secondary {
+      background: hsl(var(--secondary));
+      color: hsl(var(--secondary-foreground));
+    }
+
+    .btn-primary {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* Page Header */
+    .page-header {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      padding: 1rem;
+      padding-bottom: 2rem;
+    }
+
+    .page-header h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .page-header p {
+      font-size: 0.875rem;
+      opacity: 0.9;
+    }
+
+    /* Lab Results */
+    .lab-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      border-bottom: 1px solid hsl(var(--border));
+    }
+
+    .lab-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: hsl(var(--primary) / 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: hsl(var(--primary));
+    }
+
+    .lab-details {
+      background: hsl(var(--secondary));
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .lab-details .lab-name {
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .lab-details .lab-date {
+      font-size: 0.625rem;
+      color: hsl(var(--muted-foreground));
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .lab-details .lab-notes {
+      font-size: 0.625rem;
+      color: hsl(var(--muted-foreground));
+      margin-top: 0.25rem;
+    }
+
+    /* Navigation Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid hsl(var(--border));
+      margin-bottom: 1rem;
+      overflow-x: auto;
+    }
+
+    .tab {
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: hsl(var(--muted-foreground));
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .tab.active {
+      color: hsl(var(--primary));
+      border-bottom-color: hsl(var(--primary));
+    }
+
+    .tab:hover {
+      color: hsl(var(--foreground));
+    }
+
+    /* Side Menu Overlay */
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+
+    .menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 100%;
+      background: hsl(var(--card));
+      z-index: 101;
+      transform: translateX(-100%);
+      transition: transform 0.3s;
+      overflow-y: auto;
+    }
+
+    .side-menu.active {
+      transform: translateX(0);
+    }
+
+    .menu-header {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      padding: 1.5rem 1rem;
+    }
+
+    .menu-header h2 {
+      font-size: 1.125rem;
+      font-weight: 700;
+    }
+
+    .menu-section {
+      padding: 1rem;
+      border-bottom: 1px solid hsl(var(--border));
+    }
+
+    .menu-section-title {
+      font-size: 0.625rem;
+      font-weight: 600;
+      color: hsl(var(--muted-foreground));
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      color: hsl(var(--foreground));
+      text-decoration: none;
+    }
+
+    .menu-item:hover {
+      background: hsl(var(--secondary));
+    }
+
+    .menu-item.emergency {
+      color: hsl(var(--critical));
+    }
+
+    .menu-item span {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: hsl(var(--foreground));
+      color: hsl(var(--background));
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-weight: 500;
+      z-index: 200;
+      opacity: 0;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Demo Mode Banner */
+    .demo-banner {
+      background: hsl(var(--warning));
+      color: hsl(var(--warning-foreground));
+      text-align: center;
+      padding: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    /* Auth Screens */
+    .auth-screen {
+      display: none;
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+      background: linear-gradient(180deg, hsl(var(--primary) / 0.04) 0%, hsl(var(--background)) 40%);
+    }
+
+    .auth-screen.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .auth-logo {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .auth-logo .logo-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 1rem;
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+
+    .auth-logo h1 {
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: hsl(var(--foreground));
+    }
+
+    .auth-logo p {
+      font-size: 0.8125rem;
+      color: hsl(var(--muted-foreground));
+      margin-top: 0.25rem;
+    }
+
+    .invite-card {
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .invite-card .practice-name {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: hsl(var(--foreground));
+      margin-bottom: 0.25rem;
+    }
+
+    .invite-card .invite-from {
+      font-size: 0.8125rem;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .invite-card .invite-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: hsl(var(--excellent) / 0.1);
+      color: hsl(var(--excellent));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .auth-form {
+      flex: 1;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: hsl(var(--foreground));
+      margin-bottom: 0.375rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid hsl(var(--border));
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-family: inherit;
+      background: hsl(var(--card));
+      color: hsl(var(--foreground));
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: hsl(var(--primary));
+      box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
+    }
+
+    .form-input::placeholder {
+      color: hsl(var(--muted-foreground));
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .form-select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid hsl(var(--border));
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-family: inherit;
+      background: hsl(var(--card));
+      color: hsl(var(--foreground));
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+    }
+
+    .btn-auth {
+      width: 100%;
+      padding: 0.875rem;
+      border-radius: 0.5rem;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-auth-primary {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+    }
+
+    .btn-auth-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-auth-outline {
+      background: transparent;
+      border: 1px solid hsl(var(--border));
+      color: hsl(var(--foreground));
+      margin-top: 0.75rem;
+    }
+
+    .auth-footer {
+      text-align: center;
+      padding-top: 1.5rem;
+      font-size: 0.8125rem;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .auth-footer a {
+      color: hsl(var(--primary));
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+      color: hsl(var(--muted-foreground));
+      font-size: 0.75rem;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: hsl(var(--border));
+    }
+
+    .features-list {
+      margin: 1.25rem 0;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.625rem 0;
+      font-size: 0.8125rem;
+      color: hsl(var(--foreground));
+    }
+
+    .feature-item .check {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: hsl(var(--excellent) / 0.1);
+      color: hsl(var(--excellent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .password-toggle {
+      position: relative;
+    }
+
+    .password-toggle button {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: hsl(var(--muted-foreground));
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+
+    .app-wrapper {
+      display: none;
+    }
+
+    .app-wrapper.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- ======================== -->
+  <!-- INVITATION SCREEN       -->
+  <!-- ======================== -->
+  <div id="screen-invite" class="auth-screen">
+    <div class="auth-logo">
+      <div class="logo-icon">D1</div>
+      <h1>DentalOneIQ</h1>
+      <p>Provider Mobile App</p>
+    </div>
+
+    <div class="invite-card">
+      <div class="invite-icon">
+        <i data-lucide="mail-check" style="width:24px;height:24px"></i>
+      </div>
+      <div class="practice-name">Dentistry Specialist Integrated</div>
+      <div class="invite-from">Dr. Sanjeev Bhatia has invited you to join the practice on VoicesIQ</div>
+    </div>
+
+    <div class="features-list">
+      <div class="feature-item">
+        <div class="check"><i data-lucide="check" style="width:12px;height:12px"></i></div>
+        View your schedule & patient list
+      </div>
+      <div class="feature-item">
+        <div class="check"><i data-lucide="check" style="width:12px;height:12px"></i></div>
+        Receive emergency call notifications
+      </div>
+      <div class="feature-item">
+        <div class="check"><i data-lucide="check" style="width:12px;height:12px"></i></div>
+        Manage prescriptions & lab results
+      </div>
+      <div class="feature-item">
+        <div class="check"><i data-lucide="check" style="width:12px;height:12px"></i></div>
+        Secure HIPAA-compliant messaging
+      </div>
+    </div>
+
+    <div style="margin-top:auto">
+      <button class="btn-auth btn-auth-primary" onclick="showAuthScreen('register')">
+        <i data-lucide="user-plus" style="width:18px;height:18px"></i>
+        Accept & Create Account
+      </button>
+      <div class="auth-footer">
+        Already have an account? <a onclick="showAuthScreen('login')">Sign in</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== -->
+  <!-- REGISTRATION SCREEN      -->
+  <!-- ======================== -->
+  <div id="screen-register" class="auth-screen">
+    <div class="auth-logo">
+      <div class="logo-icon">D1</div>
+      <h1>Create Your Account</h1>
+      <p>Join Dentistry Specialist Integrated</p>
+    </div>
+
+    <div class="auth-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" class="form-input" id="reg-first" placeholder="Sarah">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" class="form-input" id="reg-last" placeholder="Johnson">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-input" id="reg-email" placeholder="sarah@dentistryspecialist.com">
+      </div>
+
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="tel" class="form-input" id="reg-phone" placeholder="(555) 123-4567">
+      </div>
+
+      <div class="form-group">
+        <label>Role</label>
+        <select class="form-select" id="reg-role">
+          <option value="">Select your role...</option>
+          <option value="dentist">Dentist</option>
+          <option value="hygienist">Hygienist</option>
+          <option value="office_manager">Office Manager</option>
+          <option value="receptionist">Receptionist</option>
+          <option value="staff">Staff</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Create Password</label>
+        <div class="password-toggle">
+          <input type="password" class="form-input" id="reg-password" placeholder="Min 8 characters">
+          <button type="button" onclick="togglePasswordVisibility('reg-password')">
+            <i data-lucide="eye" style="width:18px;height:18px"></i>
+          </button>
+        </div>
+      </div>
+
+      <button class="btn-auth btn-auth-primary" onclick="handleRegister()">
+        Create Account
+      </button>
+
+      <div class="auth-footer">
+        Already have an account? <a onclick="showAuthScreen('login')">Sign in</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== -->
+  <!-- LOGIN SCREEN             -->
+  <!-- ======================== -->
+  <div id="screen-login" class="auth-screen">
+    <div class="auth-logo">
+      <div class="logo-icon">D1</div>
+      <h1>Welcome Back</h1>
+      <p>Sign in to DentalOneIQ</p>
+    </div>
+
+    <div class="auth-form">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-input" id="login-email" placeholder="you@practice.com">
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <div class="password-toggle">
+          <input type="password" class="form-input" id="login-password" placeholder="Enter password">
+          <button type="button" onclick="togglePasswordVisibility('login-password')">
+            <i data-lucide="eye" style="width:18px;height:18px"></i>
+          </button>
+        </div>
+      </div>
+
+      <button class="btn-auth btn-auth-primary" onclick="handleLogin()">
+        Sign In
+      </button>
+
+      <div class="auth-divider">or</div>
+
+      <button class="btn-auth btn-auth-outline" onclick="handleLogin()">
+        <i data-lucide="fingerprint" style="width:18px;height:18px"></i>
+        Sign in with Biometrics
+      </button>
+
+      <div class="auth-footer">
+        Don't have an account? <a onclick="showAuthScreen('invite')">Request access</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== -->
+  <!-- APP (existing content)   -->
+  <!-- ======================== -->
+  <div id="app-wrapper" class="app-wrapper">
+
+  <!-- Demo Banner -->
+  <div class="demo-banner">
+    Demo Mode - DentalOneIQ Provider App
+  </div>
+
+  <!-- Side Menu -->
+  <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+  <div class="side-menu" id="sideMenu">
+    <div class="menu-header">
+      <h2>DentalOneIQ</h2>
+    </div>
+    
+    <div class="menu-section">
+      <div class="menu-section-title">Immediate Attention</div>
+      <a class="menu-item emergency" onclick="showPage('emergency')">
+        <i data-lucide="phone-call" style="width:20px;height:20px"></i>
+        <span>Emergency Calls</span>
+      </a>
+      <a class="menu-item" onclick="showPage('prescriptions')">
+        <i data-lucide="file-text" style="width:20px;height:20px"></i>
+        <span>Prescription Requests</span>
+      </a>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-section-title">I Want To</div>
+      <a class="menu-item" onclick="showPage('dashboard')">
+        <i data-lucide="activity" style="width:20px;height:20px"></i>
+        <span>Practice Pulse</span>
+      </a>
+      <a class="menu-item" onclick="showPage('schedule')">
+        <i data-lucide="calendar" style="width:20px;height:20px"></i>
+        <span>Schedule</span>
+      </a>
+      <a class="menu-item" onclick="showPage('patients')">
+        <i data-lucide="users" style="width:20px;height:20px"></i>
+        <span>Patients</span>
+      </a>
+      <a class="menu-item" onclick="showPage('lab-results')">
+        <i data-lucide="flask-conical" style="width:20px;height:20px"></i>
+        <span>Lab Results</span>
+      </a>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-section-title">Tools</div>
+      <a class="menu-item" onclick="showPage('todos')">
+        <i data-lucide="check-square" style="width:20px;height:20px"></i>
+        <span>To-Do List</span>
+      </a>
+      <a class="menu-item" onclick="showPage('messages')">
+        <i data-lucide="message-square" style="width:20px;height:20px"></i>
+        <span>Messages</span>
+      </a>
+    </div>
+
+    <div class="menu-section">
+      <a class="menu-item" onclick="handleLogout()" style="color:hsl(var(--critical))">
+        <i data-lucide="log-out" style="width:20px;height:20px"></i>
+        <span>Sign Out</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <button class="menu-btn" onclick="toggleMenu()">
+        <i data-lucide="menu" style="width:24px;height:24px"></i>
+      </button>
+      <svg class="logo" viewBox="0 0 160 32" fill="currentColor">
+        <text x="0" y="24" font-size="18" font-weight="700">DentalOneIQ</text>
+      </svg>
+    </div>
+    <button class="notification-btn">
+      <i data-lucide="bell" style="width:24px;height:24px"></i>
+      <span class="notification-badge"></span>
+    </button>
+  </header>
+
+  <!-- Dashboard Page -->
+  <div id="page-dashboard" class="page active">
+    <section class="welcome-section">
+      <div class="welcome-content">
+        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=100&h=100&fit=crop&crop=face" alt="Dr. Bhatia" class="avatar">
+        <div class="welcome-text">
+          <h1>Good Morning, Dr. Bhatia</h1>
+          <p>You have 8 appointments today</p>
+        </div>
+      </div>
+    </section>
+
+    <main class="main-content">
+      <!-- Emergency Alert -->
+      <div class="card emergency-card">
+        <div class="card-header">
+          <span class="card-title">
+            <i data-lucide="alert-triangle" style="width:16px;height:16px"></i>
+            Emergency Calls (2)
+          </span>
+        </div>
+        <div class="card-content">
+          <div class="emergency-item">
+            <div class="emergency-icon">
+              <i data-lucide="phone" style="width:16px;height:16px"></i>
+            </div>
+            <div class="emergency-info">
+              <h4>Sarah Johnson</h4>
+              <p>Severe tooth pain, possible abscess</p>
+              <span class="criticality-badge">Criticality: 8/10</span>
+            </div>
+          </div>
+          <div class="emergency-item">
+            <div class="emergency-icon">
+              <i data-lucide="phone" style="width:16px;height:16px"></i>
+            </div>
+            <div class="emergency-info">
+              <h4>Mike Chen</h4>
+              <p>Broken crown, exposed nerve</p>
+              <span class="criticality-badge">Criticality: 7/10</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Schedule -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">
+            <i data-lucide="calendar" style="width:16px;height:16px"></i>
+            Today's Schedule
+          </span>
+        </div>
+        <div class="card-content" style="padding:0">
+          <div class="schedule-item">
+            <div class="schedule-time">9:00 AM</div>
+            <div class="schedule-info">
+              <h4>John Smith</h4>
+              <p>Routine Cleaning</p>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">10:30 AM</div>
+            <div class="schedule-info">
+              <h4>Mary Johnson</h4>
+              <p>Crown Fitting</p>
+            </div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-time">11:30 AM</div>
+            <div class="schedule-info">
+              <h4>Robert Davis</h4>
+              <p>Root Canal - Follow Up</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Quick Actions</span>
+        </div>
+        <div class="card-content">
+          <div class="quick-actions">
+            <button class="action-btn" onclick="showPage('prescriptions')">
+              <i data-lucide="file-text" style="width:20px;height:20px"></i>
+              <span>Rx Requests</span>
+            </button>
+            <button class="action-btn" onclick="showPage('lab-results')">
+              <i data-lucide="flask-conical" style="width:20px;height:20px"></i>
+              <span>Lab Results</span>
+            </button>
+            <button class="action-btn" onclick="showPage('messages')">
+              <i data-lucide="message-square" style="width:20px;height:20px"></i>
+              <span>Messages</span>
+            </button>
+            <button class="action-btn" onclick="showPage('todos')">
+              <i data-lucide="check-square" style="width:20px;height:20px"></i>
+              <span>Tasks</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Practice Pulse -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">
+            <i data-lucide="activity" style="width:16px;height:16px"></i>
+            Practice Pulse
+          </span>
+        </div>
+        <div class="card-content">
+          <div class="pulse-grid">
+            <div class="pulse-item">
+              <div class="pulse-value">$12,450</div>
+              <div class="pulse-label">Today's Revenue</div>
+              <div class="pulse-change positive">↑ 8% vs last week</div>
+            </div>
+            <div class="pulse-item">
+              <div class="pulse-value">94%</div>
+              <div class="pulse-label">Chair Utilization</div>
+              <div class="pulse-change positive">↑ 2% vs last week</div>
+            </div>
+            <div class="pulse-item">
+              <div class="pulse-value">4.8★</div>
+              <div class="pulse-label">Avg Rating</div>
+              <div class="pulse-change">23 reviews this week</div>
+            </div>
+            <div class="pulse-item">
+              <div class="pulse-value">3</div>
+              <div class="pulse-label">Pending Tasks</div>
+              <div class="pulse-change negative">2 urgent</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Prescriptions Page -->
+  <div id="page-prescriptions" class="page">
+    <div class="page-header">
+      <h1>Prescription Requests</h1>
+      <p>Review and manage prescription requests</p>
+    </div>
+    <main class="main-content">
+      <div class="tabs">
+        <button class="tab active">All (4)</button>
+        <button class="tab">Pending (2)</button>
+        <button class="tab">Approved</button>
+        <button class="tab">Denied</button>
+      </div>
+      <div class="card">
+        <div class="prescription-item">
+          <div class="prescription-avatar">
+            <i data-lucide="user" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div>
+                <h4>John Smith</h4>
+                <p>Today, 10:30 AM</p>
+              </div>
+              <span class="badge badge-pending">Pending</span>
+            </div>
+            <div class="prescription-med">
+              <strong><i data-lucide="file-text" style="width:12px;height:12px"></i> Amoxicillin 500mg</strong>
+              <span>Post-extraction infection prevention</span>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-outline" onclick="showToast('Prescription denied')">Deny</button>
+              <button class="btn btn-secondary">Edit</button>
+              <button class="btn btn-primary" onclick="showToast('Prescription approved')">Approve</button>
+            </div>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <div class="prescription-avatar">
+            <i data-lucide="user" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div>
+                <h4>Mary Johnson</h4>
+                <p>Today, 9:15 AM</p>
+              </div>
+              <span class="badge badge-pending">Pending</span>
+            </div>
+            <div class="prescription-med">
+              <strong><i data-lucide="file-text" style="width:12px;height:12px"></i> Ibuprofen 600mg</strong>
+              <span>Pain management after crown placement</span>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-outline" onclick="showToast('Prescription denied')">Deny</button>
+              <button class="btn btn-secondary">Edit</button>
+              <button class="btn btn-primary" onclick="showToast('Prescription approved')">Approve</button>
+            </div>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <div class="prescription-avatar">
+            <i data-lucide="user" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div>
+                <h4>Robert Davis</h4>
+                <p>Yesterday, 4:45 PM</p>
+              </div>
+              <span class="badge badge-ready">Approved</span>
+            </div>
+            <div class="prescription-med">
+              <strong><i data-lucide="file-text" style="width:12px;height:12px"></i> Chlorhexidine Rinse</strong>
+              <span>Periodontal treatment follow-up</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Lab Results Page -->
+  <div id="page-lab-results" class="page">
+    <div class="page-header">
+      <h1>Lab Results</h1>
+      <p>View and manage laboratory results</p>
+    </div>
+    <main class="main-content">
+      <div class="card">
+        <div class="lab-item">
+          <div class="lab-icon">
+            <i data-lucide="flask-conical" style="width:20px;height:20px"></i>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div>
+                <h4 style="font-size:0.875rem;font-weight:600">X-Ray - Full Mouth</h4>
+                <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">John Smith</p>
+              </div>
+              <span class="badge badge-ready">Ready</span>
+            </div>
+            <div class="lab-details">
+              <div class="lab-name">Dental Imaging Center</div>
+              <div class="lab-date">
+                <i data-lucide="calendar" style="width:10px;height:10px"></i>
+                Dec 14, 2024
+              </div>
+              <div class="lab-notes">All images clear, no abnormalities detected</div>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-outline">
+                <i data-lucide="eye" style="width:12px;height:12px"></i> View
+              </button>
+              <button class="btn btn-primary">
+                <i data-lucide="download" style="width:12px;height:12px"></i> Download
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="lab-item">
+          <div class="lab-icon">
+            <i data-lucide="flask-conical" style="width:20px;height:20px"></i>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div>
+                <h4 style="font-size:0.875rem;font-weight:600">Crown Fabrication</h4>
+                <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Mary Johnson</p>
+              </div>
+              <span class="badge badge-ready">Ready</span>
+            </div>
+            <div class="lab-details">
+              <div class="lab-name">Premier Dental Lab</div>
+              <div class="lab-date">
+                <i data-lucide="calendar" style="width:10px;height:10px"></i>
+                Dec 13, 2024
+              </div>
+              <div class="lab-notes">Porcelain crown - shade A2, ready for pickup</div>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-outline">
+                <i data-lucide="eye" style="width:12px;height:12px"></i> View
+              </button>
+              <button class="btn btn-primary">
+                <i data-lucide="download" style="width:12px;height:12px"></i> Download
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="lab-item">
+          <div class="lab-icon">
+            <i data-lucide="flask-conical" style="width:20px;height:20px"></i>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div>
+                <h4 style="font-size:0.875rem;font-weight:600">Biopsy - Oral Lesion</h4>
+                <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Robert Davis</p>
+              </div>
+              <span class="badge badge-pending">Pending</span>
+            </div>
+            <div class="lab-details">
+              <div class="lab-name">Pathology Associates</div>
+              <div class="lab-date">
+                <i data-lucide="calendar" style="width:10px;height:10px"></i>
+                Dec 12, 2024
+              </div>
+              <div class="lab-notes">Results expected within 5-7 business days</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Emergency Page -->
+  <div id="page-emergency" class="page">
+    <div class="page-header" style="background:hsl(var(--critical))">
+      <h1>Emergency Calls</h1>
+      <p>Urgent patient calls requiring attention</p>
+    </div>
+    <main class="main-content">
+      <div class="card">
+        <div class="prescription-item">
+          <div class="prescription-avatar" style="background:hsl(var(--critical)/0.1);color:hsl(var(--critical))">
+            <i data-lucide="phone" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div>
+                <h4>Sarah Johnson</h4>
+                <p>(555) 123-4567 • 15 min ago</p>
+              </div>
+              <span class="badge badge-critical">8/10</span>
+            </div>
+            <div class="prescription-med">
+              <strong>Severe tooth pain, possible abscess</strong>
+              <span>Patient reports throbbing pain in lower right molar, swelling visible, fever of 101°F</span>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-outline" onclick="showToast('Playing audio...')">
+                <i data-lucide="play" style="width:12px;height:12px"></i> Play Audio
+              </button>
+              <button class="btn btn-primary" onclick="showToast('Calling patient...')">
+                <i data-lucide="phone" style="width:12px;height:12px"></i> Call Back
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <div class="prescription-avatar" style="background:hsl(var(--critical)/0.1);color:hsl(var(--critical))">
+            <i data-lucide="phone" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div>
+                <h4>Mike Chen</h4>
+                <p>(555) 987-6543 • 45 min ago</p>
+              </div>
+              <span class="badge badge-critical">7/10</span>
+            </div>
+            <div class="prescription-med">
+              <strong>Broken crown, exposed nerve</strong>
+              <span>Crown fell off while eating, patient experiencing sensitivity to air and temperature</span>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-outline" onclick="showToast('Playing audio...')">
+                <i data-lucide="play" style="width:12px;height:12px"></i> Play Audio
+              </button>
+              <button class="btn btn-primary" onclick="showToast('Calling patient...')">
+                <i data-lucide="phone" style="width:12px;height:12px"></i> Call Back
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Schedule Page -->
+  <div id="page-schedule" class="page">
+    <div class="page-header">
+      <h1>Schedule</h1>
+      <p>Today, January 1, 2025</p>
+    </div>
+    <main class="main-content">
+      <div class="tabs">
+        <button class="tab active">Day</button>
+        <button class="tab">Week</button>
+        <button class="tab">Month</button>
+      </div>
+      <div class="card">
+        <div class="prescription-item">
+          <div class="schedule-time" style="min-width:70px">9:00 AM</div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Lisa Thompson</h4>
+              <span class="badge badge-ready">Completed</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground));margin-top:0.25rem">Routine Cleaning • Dr. Sarah Chen</p>
+            <div class="prescription-med" style="margin-top:0.5rem">
+              <span><strong>Insurance:</strong> United Healthcare | <strong>Last Visit:</strong> Dec 12</span>
+            </div>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <div class="schedule-time" style="min-width:70px;background:hsl(var(--primary))">10:00 AM</div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Anna Kim (New Patient)</h4>
+              <span class="badge" style="background:hsl(var(--primary));color:white">In Progress</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground));margin-top:0.25rem">New Patient Exam • Dr. Sarah Chen</p>
+            <div class="prescription-med" style="margin-top:0.5rem">
+              <span><strong>Insurance:</strong> Delta Dental | <strong>Phone:</strong> (555) 234-5678</span>
+            </div>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <div class="schedule-time" style="min-width:70px">11:30 AM</div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Michael Chen</h4>
+              <span class="badge badge-ready">Confirmed</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground));margin-top:0.25rem">Crown Prep • Dr. James Wilson</p>
+            <div class="prescription-med" style="margin-top:0.5rem">
+              <span><strong>Insurance:</strong> MetLife | <strong>Balance:</strong> $125.50</span>
+            </div>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <div class="schedule-time" style="min-width:70px">2:30 PM</div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Emily Rodriguez</h4>
+              <span class="badge badge-pending">Scheduled</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground));margin-top:0.25rem">Filling - Composite • Dr. Sarah Chen</p>
+            <div class="prescription-med" style="margin-top:0.5rem">
+              <span><strong>Insurance:</strong> Cigna Dental | <strong>Last Visit:</strong> Dec 5</span>
+            </div>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <div class="schedule-time" style="min-width:70px">4:00 PM</div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Robert Brown</h4>
+              <span class="badge badge-pending">Scheduled</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground));margin-top:0.25rem">Root Canal • Dr. Sarah Chen</p>
+            <div class="prescription-med" style="margin-top:0.5rem">
+              <span><strong>Insurance:</strong> Humana | <strong>Notes:</strong> Needs follow-up X-ray</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Patients Page -->
+  <div id="page-patients" class="page">
+    <div class="page-header">
+      <h1>Patients</h1>
+      <p>Manage your patient records</p>
+    </div>
+    <main class="main-content">
+      <div class="card" style="margin-bottom:1rem;padding:0.75rem">
+        <input type="text" placeholder="Search patients..." style="width:100%;padding:0.75rem;border:1px solid hsl(var(--border));border-radius:0.5rem;font-size:0.875rem">
+      </div>
+      <div class="card">
+        <div class="prescription-item">
+          <div class="prescription-avatar">
+            <i data-lucide="user" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Sarah Johnson</h4>
+              <span class="badge badge-ready">Active</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Delta Dental PPO • Last visit: Dec 10</p>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">(555) 123-4567 • sarah.j@email.com</p>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <div class="prescription-avatar">
+            <i data-lucide="user" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Michael Chen</h4>
+              <span class="badge badge-pending">Balance Due</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">MetLife • Last visit: Dec 8</p>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">(555) 234-5678 • m.chen@email.com</p>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <div class="prescription-avatar">
+            <i data-lucide="user" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Emily Rodriguez</h4>
+              <span class="badge badge-ready">Active</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Cigna Dental • Next appt: Today 2:30 PM</p>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">(555) 345-6789 • emily.r@email.com</p>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <div class="prescription-avatar">
+            <i data-lucide="user" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>James Wilson</h4>
+              <span class="badge badge-critical">Overdue</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Aetna • Last visit: Nov 28</p>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">(555) 456-7890 • jwilson@email.com</p>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <div class="prescription-avatar">
+            <i data-lucide="user" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Lisa Thompson</h4>
+              <span class="badge badge-ready">Active</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">United Healthcare • Last visit: Today</p>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">(555) 567-8901 • lisa.t@email.com</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Messages Page -->
+  <div id="page-messages" class="page">
+    <div class="page-header">
+      <h1>Messages</h1>
+      <p>Patient communications</p>
+    </div>
+    <main class="main-content">
+      <div class="tabs">
+        <button class="tab active">All (5)</button>
+        <button class="tab">Unread (2)</button>
+        <button class="tab">Sent</button>
+      </div>
+      <div class="card">
+        <div class="prescription-item" style="background:hsl(var(--primary)/0.05)">
+          <div class="prescription-avatar">
+            <i data-lucide="mail" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4 style="font-weight:700">Sarah Johnson</h4>
+              <span style="font-size:0.625rem;color:hsl(var(--muted-foreground))">10 min ago</span>
+            </div>
+            <p style="font-size:0.75rem;font-weight:600;color:hsl(var(--foreground))">Re: Appointment Confirmation</p>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Thank you for confirming. I'll be there at 10:30...</p>
+          </div>
+        </div>
+        <div class="prescription-item" style="background:hsl(var(--primary)/0.05)">
+          <div class="prescription-avatar" style="background:hsl(var(--excellent)/0.1);color:hsl(var(--excellent))">
+            <i data-lucide="message-circle" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4 style="font-weight:700">Michael Chen</h4>
+              <span style="font-size:0.625rem;color:hsl(var(--muted-foreground))">25 min ago</span>
+            </div>
+            <p style="font-size:0.75rem;font-weight:600;color:hsl(var(--foreground))">SMS: Running late</p>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Hi, I'm stuck in traffic. Will be 15 min late...</p>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <div class="prescription-avatar">
+            <i data-lucide="mail" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Emily Rodriguez</h4>
+              <span style="font-size:0.625rem;color:hsl(var(--muted-foreground))">Yesterday</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--foreground))">Insurance Question</p>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">I wanted to check if my insurance covers the...</p>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <div class="prescription-avatar" style="background:hsl(var(--excellent)/0.1);color:hsl(var(--excellent))">
+            <i data-lucide="message-circle" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Lisa Thompson</h4>
+              <span style="font-size:0.625rem;color:hsl(var(--muted-foreground))">Yesterday</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--foreground))">SMS: Thank you!</p>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Thanks for the great cleaning today! See you...</p>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:1rem;padding:0.75rem" onclick="showToast('Compose message...')">
+        <i data-lucide="plus" style="width:16px;height:16px;margin-right:0.5rem"></i> New Message
+      </button>
+    </main>
+  </div>
+
+  <!-- Todos Page -->
+  <div id="page-todos" class="page">
+    <div class="page-header">
+      <h1>To-Do List</h1>
+      <p>Manage your tasks</p>
+    </div>
+    <main class="main-content">
+      <div class="tabs">
+        <button class="tab active">All (6)</button>
+        <button class="tab">Today (3)</button>
+        <button class="tab">Completed</button>
+      </div>
+      <div class="card">
+        <div class="prescription-item">
+          <input type="checkbox" style="width:20px;height:20px;accent-color:hsl(var(--primary))">
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Call Sarah Johnson - follow up</h4>
+              <span class="badge badge-critical">Urgent</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Patient Callback • Due today</p>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <input type="checkbox" style="width:20px;height:20px;accent-color:hsl(var(--primary))">
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Review lab results for Robert Davis</h4>
+              <span class="badge badge-pending">Medium</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Lab Review • Due today</p>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <input type="checkbox" style="width:20px;height:20px;accent-color:hsl(var(--primary))">
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Order supplies for next week</h4>
+              <span class="badge badge-ready">Low</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Admin • Due tomorrow</p>
+          </div>
+        </div>
+        <div class="prescription-item">
+          <input type="checkbox" style="width:20px;height:20px;accent-color:hsl(var(--primary))">
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <h4>Submit insurance claim - Chen</h4>
+              <span class="badge badge-pending">Medium</span>
+            </div>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Billing • Due today</p>
+          </div>
+        </div>
+        <div class="prescription-item" style="opacity:0.6">
+          <input type="checkbox" checked style="width:20px;height:20px;accent-color:hsl(var(--primary))">
+          <div class="prescription-info" style="flex:1">
+            <h4 style="text-decoration:line-through">Confirm tomorrow's appointments</h4>
+            <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Admin • Completed</p>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;margin-top:1rem;padding:0.75rem" onclick="showToast('Add new task...')">
+        <i data-lucide="plus" style="width:16px;height:16px;margin-right:0.5rem"></i> Add Task
+      </button>
+    </main>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard">
+      <i data-lucide="home" style="width:20px;height:20px"></i>
+      <span>Home</span>
+    </button>
+    <button class="nav-item" onclick="showPage('schedule')" id="nav-schedule">
+      <i data-lucide="calendar" style="width:20px;height:20px"></i>
+      <span>Schedule</span>
+    </button>
+    <button class="nav-item" onclick="showPage('patients')" id="nav-patients">
+      <i data-lucide="users" style="width:20px;height:20px"></i>
+      <span>Patients</span>
+    </button>
+    <button class="nav-item" onclick="showPage('messages')" id="nav-messages">
+      <i data-lucide="message-square" style="width:20px;height:20px"></i>
+      <span>Messages</span>
+    </button>
+    <button class="nav-item" onclick="toggleMenu()" id="nav-more">
+      <i data-lucide="more-horizontal" style="width:20px;height:20px"></i>
+      <span>More</span>
+    </button>
+  </nav>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">Action completed</div>
+
+  </div><!-- /app-wrapper -->
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // ==========================================
+    // Auth Flow
+    // ==========================================
+    function initApp() {
+      const isLoggedIn = localStorage.getItem('dentaloneiq_session');
+      const params = new URLSearchParams(window.location.search);
+      const hasInvite = params.has('invite');
+
+      if (isLoggedIn) {
+        enterApp();
+      } else if (hasInvite) {
+        showAuthScreen('invite');
+      } else {
+        showAuthScreen('login');
+      }
+    }
+
+    function showAuthScreen(screenId) {
+      // Hide all auth screens
+      document.querySelectorAll('.auth-screen').forEach(s => s.classList.remove('active'));
+      // Hide app
+      document.getElementById('app-wrapper').classList.remove('active');
+      // Show target screen
+      const target = document.getElementById('screen-' + screenId);
+      if (target) {
+        target.classList.add('active');
+        lucide.createIcons();
+      }
+    }
+
+    function handleRegister() {
+      const first = document.getElementById('reg-first').value.trim();
+      const last = document.getElementById('reg-last').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const role = document.getElementById('reg-role').value;
+      const password = document.getElementById('reg-password').value;
+
+      if (!first || !last || !email || !role || !password) {
+        showToast('Please fill in all fields');
+        return;
+      }
+      if (password.length < 8) {
+        showToast('Password must be at least 8 characters');
+        return;
+      }
+
+      // Store session
+      localStorage.setItem('dentaloneiq_session', JSON.stringify({
+        name: first + ' ' + last,
+        email: email,
+        role: role,
+        registeredAt: new Date().toISOString()
+      }));
+
+      showToast('Account created! Welcome to DentalOneIQ');
+      setTimeout(() => enterApp(), 400);
+    }
+
+    function handleLogin() {
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      // Demo mode: accept any input, or biometrics (empty fields)
+      localStorage.setItem('dentaloneiq_session', JSON.stringify({
+        name: 'Dr. Bhatia',
+        email: email || 'demo@dentistryspecialist.com',
+        role: 'dentist',
+        loggedInAt: new Date().toISOString()
+      }));
+
+      showToast('Welcome back!');
+      setTimeout(() => enterApp(), 400);
+    }
+
+    function enterApp() {
+      // Hide all auth screens
+      document.querySelectorAll('.auth-screen').forEach(s => s.classList.remove('active'));
+      // Show app
+      document.getElementById('app-wrapper').classList.add('active');
+      // Show dashboard
+      showPage('dashboard');
+      lucide.createIcons();
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('dentaloneiq_session');
+      showAuthScreen('login');
+      showToast('Signed out');
+    }
+
+    function togglePasswordVisibility(inputId) {
+      const input = document.getElementById(inputId);
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    // ==========================================
+    // In-App Navigation
+    // ==========================================
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+
+      const page = document.getElementById('page-' + pageId);
+      if (page) {
+        page.classList.add('active');
+      }
+
+      document.querySelectorAll('.nav-item').forEach(nav => {
+        nav.classList.remove('active');
+      });
+      const navItem = document.getElementById('nav-' + pageId);
+      if (navItem) {
+        navItem.classList.add('active');
+      }
+
+      document.getElementById('sideMenu').classList.remove('active');
+      document.getElementById('menuOverlay').classList.remove('active');
+
+      lucide.createIcons();
+    }
+
+    function toggleMenu() {
+      document.getElementById('sideMenu').classList.toggle('active');
+      document.getElementById('menuOverlay').classList.toggle('active');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // Page display rules
+    const style = document.createElement('style');
+    style.textContent = `
+      .page { display: none; }
+      .page.active { display: block; }
+    `;
+    document.head.appendChild(style);
+
+    // Boot
+    initApp();
+  </script>
+</body>
+</html>
