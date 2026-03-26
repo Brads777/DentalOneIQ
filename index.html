@@ -715,6 +715,101 @@
       font-weight: 500;
     }
 
+    /* Chat styles */
+    .chat-channels { display:flex; gap:0.5rem; overflow-x:auto; padding:0.5rem 0; margin-bottom:1rem; }
+    .chat-chip { padding:0.5rem 1rem; border-radius:2rem; font-size:0.75rem; font-weight:600; white-space:nowrap; border:1px solid hsl(var(--border)); background:hsl(var(--card)); cursor:pointer; }
+    .chat-chip.active { background:hsl(var(--primary)); color:white; border-color:hsl(var(--primary)); }
+    .chat-message { padding:0.75rem; margin-bottom:0.75rem; border-radius:var(--radius); background:hsl(var(--muted)); }
+    .chat-message.own { background:hsl(var(--primary)/0.08); margin-left:2rem; }
+    .chat-message .chat-sender { font-size:0.75rem; font-weight:600; color:hsl(var(--primary)); margin-bottom:0.25rem; }
+    .chat-message .chat-role { font-size:0.625rem; color:hsl(var(--muted-foreground)); font-weight:400; }
+    .chat-message .chat-text { font-size:0.8125rem; color:hsl(var(--foreground)); line-height:1.4; }
+    .chat-message .chat-time { font-size:0.625rem; color:hsl(var(--muted-foreground)); margin-top:0.25rem; text-align:right; }
+    .chat-input-bar { display:flex; gap:0.5rem; padding:0.75rem; border-top:1px solid hsl(var(--border)); background:hsl(var(--card)); position:sticky; bottom:60px; }
+    .chat-input { flex:1; padding:0.625rem 1rem; border:1px solid hsl(var(--border)); border-radius:2rem; font-size:0.8125rem; font-family:inherit; }
+    .chat-send { width:36px; height:36px; border-radius:50%; background:hsl(var(--primary)); color:white; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+
+    /* Template chips */
+    .template-chips { display:flex; gap:0.5rem; overflow-x:auto; padding:0.75rem 0; }
+    .template-chip { padding:0.375rem 0.75rem; border-radius:2rem; font-size:0.6875rem; font-weight:500; white-space:nowrap; background:hsl(var(--primary)/0.08); color:hsl(var(--primary)); border:1px solid hsl(var(--primary)/0.2); cursor:pointer; }
+    .template-chip:active { background:hsl(var(--primary)/0.15); }
+
+    /* Voicemail */
+    .voicemail-item { padding:1rem; border-bottom:1px solid hsl(var(--border)); }
+    .voicemail-header { display:flex; justify-content:space-between; align-items:start; margin-bottom:0.5rem; }
+    .voicemail-caller { font-weight:600; font-size:0.875rem; }
+    .voicemail-meta { font-size:0.6875rem; color:hsl(var(--muted-foreground)); }
+    .voicemail-transcript { font-size:0.8125rem; color:hsl(var(--foreground)); line-height:1.4; margin:0.5rem 0; font-style:italic; }
+    .voicemail-actions { display:flex; gap:0.5rem; margin-top:0.5rem; }
+    .voicemail-btn { padding:0.375rem 0.75rem; border-radius:0.375rem; font-size:0.75rem; font-weight:500; border:1px solid hsl(var(--border)); background:hsl(var(--card)); cursor:pointer; display:flex; align-items:center; gap:0.375rem; }
+    .voicemail-btn.primary { background:hsl(var(--primary)); color:white; border-color:hsl(var(--primary)); }
+    .ai-tag { display:inline-flex; align-items:center; gap:0.25rem; font-size:0.625rem; font-weight:600; color:hsl(var(--primary)); background:hsl(var(--primary)/0.08); padding:0.125rem 0.5rem; border-radius:1rem; }
+
+    /* Reviews */
+    .stars { color:#f59e0b; letter-spacing:2px; }
+    .review-item { padding:1rem; border-bottom:1px solid hsl(var(--border)); }
+    .review-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem; }
+    .review-author { font-weight:600; font-size:0.875rem; }
+    .review-source { font-size:0.6875rem; color:hsl(var(--muted-foreground)); }
+    .review-text { font-size:0.8125rem; line-height:1.4; color:hsl(var(--foreground)); }
+
+    /* Phone activity */
+    .phone-line { padding:0.75rem; border:1px solid hsl(var(--border)); border-radius:var(--radius); margin-bottom:0.5rem; display:flex; align-items:center; gap:0.75rem; }
+    .phone-line.active-call { border-color:hsl(var(--excellent)); background:hsl(var(--excellent)/0.04); }
+    .phone-line.available { border-color:hsl(var(--border)); opacity:0.6; }
+    .line-indicator { width:10px; height:10px; border-radius:50%; }
+    .line-indicator.busy { background:hsl(var(--excellent)); animation:pulse-dot 1.5s infinite; }
+    .line-indicator.free { background:hsl(var(--border)); }
+    @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* Office hours */
+    .hours-row { display:flex; justify-content:space-between; padding:0.75rem 0; border-bottom:1px solid hsl(var(--border)); font-size:0.875rem; }
+    .hours-day { font-weight:600; min-width:50px; }
+    .hours-time { color:hsl(var(--muted-foreground)); }
+    .hours-note { font-size:0.6875rem; color:hsl(var(--primary)); font-weight:500; }
+
+    /* Payment stats */
+    .payment-stats { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1rem; }
+    .payment-stat { text-align:center; padding:1rem; background:hsl(var(--card)); border:1px solid hsl(var(--border)); border-radius:var(--radius); }
+    .payment-stat .stat-value { font-size:1.5rem; font-weight:700; }
+    .payment-stat .stat-label { font-size:0.6875rem; color:hsl(var(--muted-foreground)); margin-top:0.25rem; }
+    .payment-actions { display:flex; gap:0.5rem; margin-bottom:1rem; }
+    .payment-action-btn { flex:1; padding:0.75rem 0.5rem; border:1px solid hsl(var(--border)); border-radius:var(--radius); background:hsl(var(--card)); text-align:center; cursor:pointer; font-size:0.75rem; font-weight:500; font-family:inherit; }
+    .payment-action-btn i { display:block; margin:0 auto 0.375rem; color:hsl(var(--primary)); }
+
+    /* Schedule alerts */
+    .schedule-alert { padding:0.75rem 1rem; border-radius:var(--radius); margin-bottom:1rem; font-size:0.8125rem; display:flex; align-items:start; gap:0.5rem; }
+    .schedule-alert.warning { background:hsl(var(--warning)/0.1); border:1px solid hsl(var(--warning)/0.3); color:hsl(38 92% 30%); }
+    .request-actions { display:flex; gap:0.5rem; margin-top:0.5rem; }
+    .request-btn { padding:0.375rem 0.75rem; border-radius:0.375rem; font-size:0.6875rem; font-weight:600; border:none; cursor:pointer; }
+    .request-btn.accept { background:hsl(var(--excellent)); color:white; }
+    .request-btn.decline { background:hsl(var(--muted)); color:hsl(var(--foreground)); }
+
+    /* Forwarding toggle */
+    .toggle-row { display:flex; justify-content:space-between; align-items:center; padding:0.75rem 0; }
+    .toggle-switch { width:44px; height:24px; border-radius:12px; background:hsl(var(--excellent)); position:relative; cursor:pointer; border:none; }
+    .toggle-switch::after { content:''; width:20px; height:20px; border-radius:50%; background:white; position:absolute; top:2px; right:2px; transition:0.2s; }
+    .toggle-switch.off { background:hsl(var(--border)); }
+    .toggle-switch.off::after { right:auto; left:2px; }
+
+    /* Stats row */
+    .stats-row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem; margin-bottom:1rem; }
+    .stat-box { text-align:center; padding:0.75rem 0.5rem; background:hsl(var(--card)); border:1px solid hsl(var(--border)); border-radius:var(--radius); }
+    .stat-box .stat-num { font-size:1.25rem; font-weight:700; }
+    .stat-box .stat-lbl { font-size:0.625rem; color:hsl(var(--muted-foreground)); }
+    .stat-box.live .stat-num { color:hsl(var(--excellent)); }
+    .stat-box.hold .stat-num { color:hsl(var(--warning)); }
+    .stat-box.queue .stat-num { color:hsl(var(--primary)); }
+
+    /* Office number banner */
+    .office-number-banner { display:flex; align-items:center; gap:0.5rem; padding:0.625rem 1rem; background:hsl(var(--primary)/0.06); border:1px solid hsl(var(--primary)/0.15); border-radius:var(--radius); margin-bottom:1rem; font-size:0.75rem; color:hsl(var(--primary)); font-weight:500; }
+
+    /* Review stats */
+    .review-stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.75rem; margin-bottom:1rem; }
+    .review-stat { text-align:center; padding:0.75rem; background:hsl(var(--card)); border:1px solid hsl(var(--border)); border-radius:var(--radius); }
+    .review-stat .big-num { font-size:1.5rem; font-weight:700; }
+    .review-stat .label { font-size:0.6875rem; color:hsl(var(--muted-foreground)); }
+
     /* Auth Screens */
     .auth-screen {
       display: none;
@@ -1179,6 +1274,30 @@
         <i data-lucide="message-square" style="width:20px;height:20px"></i>
         <span>Messages</span>
       </a>
+      <a class="menu-item" onclick="showPage('payments')">
+        <i data-lucide="credit-card" style="width:20px;height:20px"></i>
+        <span>Payments</span>
+      </a>
+      <a class="menu-item" onclick="showPage('team-chat')">
+        <i data-lucide="message-circle" style="width:20px;height:20px"></i>
+        <span>Team Chat</span>
+      </a>
+      <a class="menu-item" onclick="showPage('voicemail')">
+        <i data-lucide="voicemail" style="width:20px;height:20px"></i>
+        <span>Voicemail</span>
+      </a>
+      <a class="menu-item" onclick="showPage('reviews')">
+        <i data-lucide="star" style="width:20px;height:20px"></i>
+        <span>Reviews</span>
+      </a>
+      <a class="menu-item" onclick="showPage('phone-activity')">
+        <i data-lucide="phone-incoming" style="width:20px;height:20px"></i>
+        <span>Phone Activity</span>
+      </a>
+      <a class="menu-item" onclick="showPage('office-hours')">
+        <i data-lucide="clock" style="width:20px;height:20px"></i>
+        <span>Office Hours</span>
+      </a>
     </div>
 
     <div class="menu-section">
@@ -1305,6 +1424,24 @@
             <button class="action-btn" onclick="showPage('todos')">
               <i data-lucide="check-square" style="width:20px;height:20px"></i>
               <span>Tasks</span>
+            </button>
+          </div>
+          <div class="quick-actions" style="margin-top:0.75rem">
+            <button class="action-btn" onclick="showPage('payments')">
+              <i data-lucide="credit-card" style="width:20px;height:20px"></i>
+              <span>Payments</span>
+            </button>
+            <button class="action-btn" onclick="showPage('team-chat')">
+              <i data-lucide="message-circle" style="width:20px;height:20px"></i>
+              <span>Team Chat</span>
+            </button>
+            <button class="action-btn" onclick="showPage('reviews')">
+              <i data-lucide="star" style="width:20px;height:20px"></i>
+              <span>Reviews</span>
+            </button>
+            <button class="action-btn" onclick="showPage('voicemail')">
+              <i data-lucide="voicemail" style="width:20px;height:20px"></i>
+              <span>Voicemail</span>
             </button>
           </div>
         </div>
@@ -1598,6 +1735,53 @@
         <button class="tab">Week</button>
         <button class="tab">Month</button>
       </div>
+
+      <!-- Schedule Alert -->
+      <div class="schedule-alert warning">
+        <span style="font-size:1rem;flex-shrink:0">&#9888;&#65039;</span>
+        <div>
+          <strong>Schedule Alert:</strong> Gap detected 1:00-2:30 PM — No appointments booked
+        </div>
+      </div>
+
+      <!-- Pending Requests -->
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-header">
+          <span class="card-title">
+            <i data-lucide="inbox" style="width:16px;height:16px"></i>
+            Pending Requests (2)
+          </span>
+        </div>
+        <div class="card-content" style="padding:0">
+          <div class="prescription-item">
+            <div class="prescription-avatar">
+              <i data-lucide="user" style="width:20px;height:20px"></i>
+            </div>
+            <div class="prescription-info" style="flex:1">
+              <h4>David Park</h4>
+              <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Cleaning request — Preferred: Tomorrow AM</p>
+              <div class="request-actions">
+                <button class="request-btn accept" onclick="showToast('Appointment accepted for David Park')">Accept</button>
+                <button class="request-btn decline" onclick="showToast('Request declined')">Decline</button>
+              </div>
+            </div>
+          </div>
+          <div class="prescription-item">
+            <div class="prescription-avatar">
+              <i data-lucide="user" style="width:20px;height:20px"></i>
+            </div>
+            <div class="prescription-info" style="flex:1">
+              <h4>Lisa Kim</h4>
+              <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">New Patient Exam — Preferred: Friday</p>
+              <div class="request-actions">
+                <button class="request-btn accept" onclick="showToast('Appointment accepted for Lisa Kim')">Accept</button>
+                <button class="request-btn decline" onclick="showToast('Request declined')">Decline</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="card">
         <div class="prescription-item">
           <div class="schedule-time" style="min-width:70px">9:00 AM</div>
@@ -1755,6 +1939,20 @@
       <p>Patient communications</p>
     </div>
     <main class="main-content">
+      <!-- Office Number Banner -->
+      <div class="office-number-banner">
+        <i data-lucide="smartphone" style="width:16px;height:16px;flex-shrink:0"></i>
+        Texting as: (555) 123-4567 — Dentistry Specialist Integrated
+      </div>
+
+      <!-- Message Templates -->
+      <div class="template-chips">
+        <button class="template-chip" onclick="showToast('Template: Hi [Name], this is a reminder about your appointment on [Date] at [Time]. Reply C to confirm or R to reschedule.')">Appointment Reminder</button>
+        <button class="template-chip" onclick="showToast('Template: Hi [Name], we are running approximately [X] minutes behind schedule. We apologize for the inconvenience.')">Running Late</button>
+        <button class="template-chip" onclick="showToast('Template: Hi [Name], you have an outstanding balance of $[Amount]. Pay online at [Link] or call us at (555) 123-4567.')">Balance Due</button>
+        <button class="template-chip" onclick="showToast('Template: Hi [Name], thank you for visiting us! We would love your feedback. Please leave a review at [Link].')">Review Request</button>
+      </div>
+
       <div class="tabs">
         <button class="tab active">All (5)</button>
         <button class="tab">Unread (2)</button>
@@ -1883,6 +2081,580 @@
       </div>
       <button class="btn btn-primary" style="width:100%;margin-top:1rem;padding:0.75rem" onclick="showToast('Add new task...')">
         <i data-lucide="plus" style="width:16px;height:16px;margin-right:0.5rem"></i> Add Task
+      </button>
+    </main>
+  </div>
+
+  <!-- Payments Page -->
+  <div id="page-payments" class="page">
+    <div class="page-header">
+      <h1>Payments</h1>
+      <p>Manage billing & collections</p>
+    </div>
+    <main class="main-content">
+      <div class="tabs">
+        <button class="tab active">Overview</button>
+        <button class="tab">Pending</button>
+        <button class="tab">History</button>
+      </div>
+
+      <!-- Today's Collections -->
+      <div class="payment-stats">
+        <div class="payment-stat">
+          <div class="stat-value" style="color:hsl(var(--excellent))">$4,280</div>
+          <div class="stat-label">Collected Today</div>
+        </div>
+        <div class="payment-stat">
+          <div class="stat-value" style="color:hsl(var(--warning))">$1,950</div>
+          <div class="stat-label">Pending</div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="payment-actions">
+        <button class="payment-action-btn" onclick="showToast('Tap to Pay activated — hold card near device')">
+          <i data-lucide="credit-card" style="width:20px;height:20px"></i>
+          Tap to Pay
+        </button>
+        <button class="payment-action-btn" onclick="showToast('Text to Pay link sent to patient')">
+          <i data-lucide="smartphone" style="width:20px;height:20px"></i>
+          Text to Pay
+        </button>
+        <button class="payment-action-btn" onclick="showToast('Payment reminder sent')">
+          <i data-lucide="bell" style="width:20px;height:20px"></i>
+          Send Reminder
+        </button>
+      </div>
+
+      <!-- Payment Items -->
+      <div class="card">
+        <div class="prescription-item" onclick="showToast('Opening payment details for Sarah Johnson')" style="cursor:pointer">
+          <div class="prescription-avatar">
+            <i data-lucide="user" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div>
+                <h4>Sarah Johnson</h4>
+                <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">$350.00 — Crown Co-pay</p>
+              </div>
+              <span class="badge badge-pending">Pending</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" style="width:16px;height:16px;color:hsl(var(--muted-foreground));flex-shrink:0"></i>
+        </div>
+        <div class="prescription-item" onclick="showToast('Opening payment details for Michael Chen')" style="cursor:pointer">
+          <div class="prescription-avatar" style="background:hsl(var(--critical)/0.1);color:hsl(var(--critical))">
+            <i data-lucide="user" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div>
+                <h4>Michael Chen</h4>
+                <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">$125.50 — Balance Due</p>
+                <p style="font-size:0.625rem;color:hsl(var(--critical))">30 days overdue</p>
+              </div>
+              <span class="badge badge-critical">Overdue</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" style="width:16px;height:16px;color:hsl(var(--muted-foreground));flex-shrink:0"></i>
+        </div>
+        <div class="prescription-item" onclick="showToast('Opening payment details for Emily Rodriguez')" style="cursor:pointer">
+          <div class="prescription-avatar" style="background:hsl(var(--excellent)/0.1);color:hsl(var(--excellent))">
+            <i data-lucide="user" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div>
+                <h4>Emily Rodriguez</h4>
+                <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">$75.00 — Copay</p>
+              </div>
+              <span class="badge badge-ready">Paid</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" style="width:16px;height:16px;color:hsl(var(--muted-foreground));flex-shrink:0"></i>
+        </div>
+        <div class="prescription-item" onclick="showToast('Opening payment details for Robert Brown')" style="cursor:pointer">
+          <div class="prescription-avatar">
+            <i data-lucide="user" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div>
+                <h4>Robert Brown</h4>
+                <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">$2,100.00 — Root Canal</p>
+              </div>
+              <span class="badge" style="background:hsl(var(--primary)/0.1);color:hsl(var(--primary))">Insurance Filed</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" style="width:16px;height:16px;color:hsl(var(--muted-foreground));flex-shrink:0"></i>
+        </div>
+        <div class="prescription-item" onclick="showToast('Opening payment details for Lisa Thompson')" style="cursor:pointer">
+          <div class="prescription-avatar" style="background:hsl(var(--excellent)/0.1);color:hsl(var(--excellent))">
+            <i data-lucide="user" style="width:20px;height:20px"></i>
+          </div>
+          <div class="prescription-info" style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div>
+                <h4>Lisa Thompson</h4>
+                <p style="font-size:0.75rem;color:hsl(var(--muted-foreground))">$45.00 — Cleaning Copay</p>
+              </div>
+              <span class="badge badge-ready">Paid</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" style="width:16px;height:16px;color:hsl(var(--muted-foreground));flex-shrink:0"></i>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Team Chat Page -->
+  <div id="page-team-chat" class="page">
+    <div class="page-header">
+      <h1>Team Chat</h1>
+      <p>Internal communication</p>
+    </div>
+    <main class="main-content">
+      <!-- Channel chips -->
+      <div class="chat-channels">
+        <button class="chat-chip active">All Staff</button>
+        <button class="chat-chip">Front Desk</button>
+        <button class="chat-chip">Clinical</button>
+        <button class="chat-chip">Urgent</button>
+      </div>
+
+      <!-- Chat messages -->
+      <div class="chat-message">
+        <div class="chat-sender">Dr. Bhatia</div>
+        <div class="chat-text">Room 3 is ready for the crown prep. Michael Chen's X-rays are loaded.</div>
+        <div class="chat-time">10:15 AM</div>
+      </div>
+      <div class="chat-message">
+        <div class="chat-sender">Sarah <span class="chat-role">Front Desk</span></div>
+        <div class="chat-text">Got it. His insurance verification came back — approved for the crown. $125.50 patient responsibility.</div>
+        <div class="chat-time">10:18 AM</div>
+      </div>
+      <div class="chat-message">
+        <div class="chat-sender">Dr. Chen</div>
+        <div class="chat-text">Thanks. Can someone prep the Ivoclar e.max block? Shade A2.</div>
+        <div class="chat-time">10:22 AM</div>
+      </div>
+      <div class="chat-message">
+        <div class="chat-sender">Maria <span class="chat-role">Hygienist</span></div>
+        <div class="chat-text">Already done! Also, heads up — the 2:30 patient called to confirm but mentioned she's nervous about the filling.</div>
+        <div class="chat-time">10:25 AM</div>
+      </div>
+      <div class="chat-message own">
+        <div class="chat-sender">Dr. Bhatia</div>
+        <div class="chat-text">Thanks Maria. I'll talk to her when she arrives. @Sarah can you pull her treatment plan?</div>
+        <div class="chat-time">10:28 AM</div>
+      </div>
+
+      <!-- Chat input bar -->
+      <div class="chat-input-bar">
+        <button style="background:none;border:none;color:hsl(var(--muted-foreground));cursor:pointer;padding:0.25rem" onclick="showToast('Attach file...')">
+          <i data-lucide="paperclip" style="width:20px;height:20px"></i>
+        </button>
+        <input class="chat-input" type="text" placeholder="Type a message...">
+        <button class="chat-send" onclick="showToast('Message sent')">
+          <i data-lucide="send" style="width:16px;height:16px"></i>
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Voicemail Page -->
+  <div id="page-voicemail" class="page">
+    <div class="page-header">
+      <h1>Voicemail</h1>
+      <p>Office voicemail inbox</p>
+    </div>
+    <main class="main-content">
+      <div class="tabs">
+        <button class="tab active">New (3)</button>
+        <button class="tab">Reviewed</button>
+        <button class="tab">Urgent</button>
+      </div>
+
+      <div class="card">
+        <!-- Voicemail 1 -->
+        <div class="voicemail-item">
+          <div class="voicemail-header">
+            <div>
+              <div class="voicemail-caller">Patricia Wilson</div>
+              <div class="voicemail-meta">Today, 8:42 AM — Duration: 0:45</div>
+            </div>
+            <span class="badge" style="background:hsl(var(--primary)/0.1);color:hsl(var(--primary))">New</span>
+          </div>
+          <div class="voicemail-transcript">"Hi, I need to reschedule my Thursday appointment..."</div>
+          <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">
+            <span class="ai-tag">
+              <i data-lucide="sparkles" style="width:10px;height:10px"></i>
+              AI Transcription
+            </span>
+          </div>
+          <div class="voicemail-actions">
+            <button class="voicemail-btn" onclick="showToast('Playing voicemail from Patricia Wilson...')">
+              <i data-lucide="play" style="width:14px;height:14px"></i> Play
+            </button>
+            <button class="voicemail-btn primary" onclick="showToast('Calling Patricia Wilson...')">
+              <i data-lucide="phone" style="width:14px;height:14px"></i> Call Back
+            </button>
+          </div>
+        </div>
+
+        <!-- Voicemail 2 -->
+        <div class="voicemail-item">
+          <div class="voicemail-header">
+            <div>
+              <div class="voicemail-caller">Unknown Caller</div>
+              <div class="voicemail-meta">Today, 7:15 AM — Duration: 1:12</div>
+            </div>
+            <span class="badge" style="background:hsl(var(--primary)/0.1);color:hsl(var(--primary))">New</span>
+          </div>
+          <div class="voicemail-transcript">"This is Dr. Martinez from Eastside Orthodontics calling about a referral..."</div>
+          <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">
+            <span class="ai-tag">
+              <i data-lucide="sparkles" style="width:10px;height:10px"></i>
+              AI Transcription
+            </span>
+          </div>
+          <div class="voicemail-actions">
+            <button class="voicemail-btn" onclick="showToast('Playing voicemail from Unknown Caller...')">
+              <i data-lucide="play" style="width:14px;height:14px"></i> Play
+            </button>
+            <button class="voicemail-btn primary" onclick="showToast('Calling back...')">
+              <i data-lucide="phone" style="width:14px;height:14px"></i> Call Back
+            </button>
+          </div>
+        </div>
+
+        <!-- Voicemail 3 -->
+        <div class="voicemail-item">
+          <div class="voicemail-header">
+            <div>
+              <div class="voicemail-caller">James Miller</div>
+              <div class="voicemail-meta">Yesterday, 4:30 PM — Duration: 0:32</div>
+            </div>
+            <span class="badge badge-critical">Urgent</span>
+          </div>
+          <div class="voicemail-transcript">"Calling to check if my prescription for amoxicillin has been called in..."</div>
+          <div class="voicemail-actions">
+            <button class="voicemail-btn" onclick="showToast('Playing voicemail from James Miller...')">
+              <i data-lucide="play" style="width:14px;height:14px"></i> Play
+            </button>
+            <button class="voicemail-btn primary" onclick="showToast('Calling James Miller...')">
+              <i data-lucide="phone" style="width:14px;height:14px"></i> Call Back
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Reviews Page -->
+  <div id="page-reviews" class="page">
+    <div class="page-header">
+      <h1>Reviews & Reputation</h1>
+      <p>Monitor and manage online reviews</p>
+    </div>
+    <main class="main-content">
+      <!-- Stats -->
+      <div class="review-stats">
+        <div class="review-stat">
+          <div class="big-num" style="color:hsl(var(--warning))">4.8</div>
+          <div class="label">Avg Rating</div>
+        </div>
+        <div class="review-stat">
+          <div class="big-num">156</div>
+          <div class="label">Total Reviews</div>
+        </div>
+        <div class="review-stat">
+          <div class="big-num" style="color:hsl(var(--excellent))">12</div>
+          <div class="label">This Month</div>
+        </div>
+      </div>
+
+      <!-- Send Review Invite -->
+      <button class="btn btn-primary" style="width:100%;padding:0.75rem;margin-bottom:1rem;font-size:0.875rem" onclick="showToast('Review invite sent to recent patients')">
+        <i data-lucide="send" style="width:16px;height:16px;margin-right:0.5rem"></i> Send Review Invite
+      </button>
+
+      <!-- Recent Reviews -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Recent Reviews</span>
+        </div>
+        <div class="review-item">
+          <div class="review-header">
+            <div>
+              <div class="review-author">Jennifer L.</div>
+              <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            </div>
+            <div class="review-source">Google — 2 days ago</div>
+          </div>
+          <div class="review-text">"Dr. Bhatia and his team are amazing! The office is clean and the staff is incredibly friendly. Best dental experience I've had."</div>
+        </div>
+        <div class="review-item">
+          <div class="review-header">
+            <div>
+              <div class="review-author">Mark S.</div>
+              <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+            </div>
+            <div class="review-source">Yelp — 1 week ago</div>
+          </div>
+          <div class="review-text">"Great experience overall. Wait time was a bit long but the care was excellent. Would recommend to friends and family."</div>
+        </div>
+        <div class="review-item">
+          <div class="review-header">
+            <div>
+              <div class="review-author">Andrea R.</div>
+              <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            </div>
+            <div class="review-source">Google — 2 weeks ago</div>
+          </div>
+          <div class="review-text">"Best dental experience I've ever had. The hygienist was gentle and thorough, and Dr. Bhatia explained everything clearly."</div>
+        </div>
+      </div>
+
+      <!-- Pending Invites -->
+      <div class="card" style="margin-top:1rem">
+        <div class="card-content" style="text-align:center">
+          <p style="font-size:0.8125rem;color:hsl(var(--muted-foreground))">
+            <i data-lucide="mail" style="width:14px;height:14px;vertical-align:middle;margin-right:0.25rem"></i>
+            3 invites sent, 1 review received this week
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Phone Activity Page -->
+  <div id="page-phone-activity" class="page">
+    <div class="page-header">
+      <h1>Phone Activity</h1>
+      <p>Live office phone status</p>
+    </div>
+    <main class="main-content">
+      <!-- Stats -->
+      <div class="stats-row-3">
+        <div class="stat-box live">
+          <div class="stat-num">1</div>
+          <div class="stat-lbl">Active Calls</div>
+        </div>
+        <div class="stat-box hold">
+          <div class="stat-num">0</div>
+          <div class="stat-lbl">On Hold</div>
+        </div>
+        <div class="stat-box queue">
+          <div class="stat-num">2</div>
+          <div class="stat-lbl">In Queue</div>
+        </div>
+      </div>
+
+      <!-- Active Lines -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">
+            <i data-lucide="phone" style="width:16px;height:16px"></i>
+            Phone Lines
+          </span>
+        </div>
+        <div class="card-content">
+          <div class="phone-line active-call">
+            <div class="line-indicator busy"></div>
+            <div style="flex:1">
+              <div style="font-size:0.875rem;font-weight:600">Line 1 — Sarah (Front Desk)</div>
+              <div style="font-size:0.75rem;color:hsl(var(--muted-foreground))">New patient inquiry — 2:34</div>
+            </div>
+            <span class="badge badge-ready" style="font-size:0.5625rem">AI Agent Assisting</span>
+          </div>
+          <div class="phone-line available">
+            <div class="line-indicator free"></div>
+            <div style="flex:1">
+              <div style="font-size:0.875rem;font-weight:600">Line 2</div>
+              <div style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Available</div>
+            </div>
+          </div>
+          <div class="phone-line available">
+            <div class="line-indicator free"></div>
+            <div style="flex:1">
+              <div style="font-size:0.875rem;font-weight:600">Line 3</div>
+              <div style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Available</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Calls -->
+      <div class="card" style="margin-top:1rem">
+        <div class="card-header">
+          <span class="card-title">
+            <i data-lucide="clock" style="width:16px;height:16px"></i>
+            Recent Calls
+          </span>
+        </div>
+        <div class="card-content" style="padding:0">
+          <div class="prescription-item">
+            <div class="prescription-avatar" style="background:hsl(var(--excellent)/0.1);color:hsl(var(--excellent))">
+              <i data-lucide="phone-incoming" style="width:18px;height:18px"></i>
+            </div>
+            <div class="prescription-info" style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:start">
+                <div>
+                  <h4 style="font-size:0.8125rem">(555) 234-5678</h4>
+                  <p style="font-size:0.6875rem;color:hsl(var(--muted-foreground))">Appointment booking — 3 min ago</p>
+                </div>
+                <span class="badge badge-ready" style="font-size:0.5625rem">Completed</span>
+              </div>
+              <p style="font-size:0.6875rem;color:hsl(var(--primary));font-weight:500;margin-top:0.25rem">Handled by AI</p>
+            </div>
+          </div>
+          <div class="prescription-item">
+            <div class="prescription-avatar">
+              <i data-lucide="phone-forwarded" style="width:18px;height:18px"></i>
+            </div>
+            <div class="prescription-info" style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:start">
+                <div>
+                  <h4 style="font-size:0.8125rem">(555) 876-5432</h4>
+                  <p style="font-size:0.6875rem;color:hsl(var(--muted-foreground))">Insurance question — 15 min ago</p>
+                </div>
+                <span class="badge" style="background:hsl(var(--primary)/0.1);color:hsl(var(--primary));font-size:0.5625rem">Transferred</span>
+              </div>
+              <p style="font-size:0.6875rem;color:hsl(var(--muted-foreground));margin-top:0.25rem">Transferred to Sarah</p>
+            </div>
+          </div>
+          <div class="prescription-item">
+            <div class="prescription-avatar" style="background:hsl(var(--critical)/0.1);color:hsl(var(--critical))">
+              <i data-lucide="phone" style="width:18px;height:18px"></i>
+            </div>
+            <div class="prescription-info" style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:start">
+                <div>
+                  <h4 style="font-size:0.8125rem">(555) 345-6789</h4>
+                  <p style="font-size:0.6875rem;color:hsl(var(--muted-foreground))">Emergency — 28 min ago</p>
+                </div>
+                <span class="badge badge-critical" style="font-size:0.5625rem">Emergency</span>
+              </div>
+              <p style="font-size:0.6875rem;color:hsl(var(--muted-foreground));margin-top:0.25rem">Forwarded to Dr. Bhatia</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Call Forwarding -->
+      <div class="card" style="margin-top:1rem">
+        <div class="card-content">
+          <div class="toggle-row">
+            <div>
+              <div style="font-size:0.875rem;font-weight:600">After Hours Forwarding</div>
+              <div style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Dr. Bhatia (555) 900-1234</div>
+            </div>
+            <button class="toggle-switch" onclick="this.classList.toggle('off');showToast(this.classList.contains('off')?'Forwarding disabled':'Forwarding enabled')"></button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Office Hours Page -->
+  <div id="page-office-hours" class="page">
+    <div class="page-header">
+      <h1>Office Hours</h1>
+      <p>Manage practice schedule</p>
+    </div>
+    <main class="main-content">
+      <!-- Current Status -->
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-content" style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:0.875rem;font-weight:600">Current Status</div>
+            <div style="font-size:0.75rem;color:hsl(var(--muted-foreground))">Office is currently open</div>
+          </div>
+          <span class="badge badge-ready" style="font-size:0.75rem;padding:0.375rem 0.75rem">OPEN</span>
+        </div>
+      </div>
+
+      <!-- Weekly Schedule -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">
+            <i data-lucide="calendar" style="width:16px;height:16px"></i>
+            Weekly Schedule
+          </span>
+        </div>
+        <div class="card-content">
+          <div class="hours-row">
+            <span class="hours-day">Mon</span>
+            <span class="hours-time">8:00 AM - 5:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Tue</span>
+            <span class="hours-time">8:00 AM - 5:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Wed</span>
+            <span>
+              <span class="hours-time">8:00 AM - 7:00 PM</span>
+              <span class="hours-note" style="margin-left:0.5rem">Late hours</span>
+            </span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Thu</span>
+            <span class="hours-time">8:00 AM - 5:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Fri</span>
+            <span class="hours-time">8:00 AM - 3:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Sat</span>
+            <span class="hours-time">9:00 AM - 1:00 PM</span>
+          </div>
+          <div class="hours-row" style="border-bottom:none">
+            <span class="hours-day">Sun</span>
+            <span class="hours-time" style="color:hsl(var(--critical))">Closed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Break Hours -->
+      <div class="card" style="margin-top:1rem">
+        <div class="card-header">
+          <span class="card-title">
+            <i data-lucide="coffee" style="width:16px;height:16px"></i>
+            Break Hours
+          </span>
+        </div>
+        <div class="card-content">
+          <div style="font-size:0.875rem">
+            <strong>Lunch:</strong> <span style="color:hsl(var(--muted-foreground))">12:00 PM - 1:00 PM</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Holiday Closures -->
+      <div class="card" style="margin-top:1rem">
+        <div class="card-header">
+          <span class="card-title">
+            <i data-lucide="calendar-off" style="width:16px;height:16px"></i>
+            Holiday Closures
+          </span>
+        </div>
+        <div class="card-content">
+          <div style="font-size:0.8125rem;padding:0.5rem 0;border-bottom:1px solid hsl(var(--border))">
+            <strong>Dec 25</strong> <span style="color:hsl(var(--muted-foreground))">— Christmas</span>
+          </div>
+          <div style="font-size:0.8125rem;padding:0.5rem 0">
+            <strong>Jan 1</strong> <span style="color:hsl(var(--muted-foreground))">— New Year's Day</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Button -->
+      <button class="btn btn-primary" style="width:100%;padding:0.75rem;margin-top:1rem;font-size:0.875rem" onclick="showToast('Edit office hours...')">
+        <i data-lucide="edit" style="width:16px;height:16px;margin-right:0.5rem"></i> Edit Hours
       </button>
     </main>
   </div>
