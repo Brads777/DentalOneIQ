@@ -1,0 +1,8 @@
+screenshots/
+*.jpeg
+*.png
+*.md
+docs/
+.git/
+.gitignore
+node_modules/

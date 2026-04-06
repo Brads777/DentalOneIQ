@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DentalOneIQ - The All-in-One Provider App for Modern Dental Practices</title>
+  <meta name="description" content="DentalOneIQ replaces Weave, Podium, and 5+ other tools with one AI-powered provider app. Voice receptionist, scheduling, payments, reviews, KPIs — all in one place.">
+  <meta name="keywords" content="dental practice management, dental AI, dental software, Weave alternative, dental voice receptionist, dental scheduling">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="DentalOneIQ - The All-in-One Provider App">
+  <meta property="og:description" content="Replace 5+ dental tools with one AI-powered provider app. Beta access is free.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dentaloneiq.toolsiq.ai">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --primary: #0ea5e9;
+      --primary-dark: #0284c7;
+      --primary-light: #e0f2fe;
+      --primary-900: #0c4a6e;
+      --text: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      --bg: #ffffff;
+      --bg-alt: #f8fafc;
+      --bg-dark: #0f172a;
+      --border: #e2e8f0;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --radius: 0.75rem;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Beta Banner */
+    .beta-banner {
+      background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+      color: #fff;
+      text-align: center;
+      padding: 0.5rem 1rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+    .beta-banner span {
+      background: rgba(255,255,255,0.2);
+      padding: 0.125rem 0.5rem;
+      border-radius: 4px;
+      margin-right: 0.5rem;
+      font-weight: 700;
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Navigation */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-logo .logo-one {
+      color: var(--primary-dark);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-cta {
+      background: var(--primary);
+      color: #fff !important;
+      padding: 0.5rem 1.25rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: var(--primary-dark);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 5rem 1.5rem 4rem;
+      text-align: center;
+      background: linear-gradient(180deg, var(--primary-light) 0%, var(--bg) 100%);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 0.375rem 1rem;
+      border-radius: 100px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-badge .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    .hero h1 .highlight {
+      color: var(--primary);
+    }
+
+    .hero p {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      max-width: 640px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(14,165,233,0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat .number {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .hero-stat .label {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Section common */
+    .section {
+      padding: 5rem 1.5rem;
+    }
+
+    .section-alt {
+      background: var(--bg-alt);
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 3rem;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .section-header p {
+      color: var(--text-secondary);
+      font-size: 1.0625rem;
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: all 0.2s;
+    }
+
+    .feature-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 24px rgba(14,165,233,0.1);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--primary-light);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      color: var(--primary);
+    }
+
+    .feature-card h3 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    .feature-badge {
+      display: inline-block;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 0.25rem 0.625rem;
+      border-radius: 4px;
+      margin-top: 0.75rem;
+    }
+
+    /* Comparison Table */
+    .comparison-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 1rem 1.25rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9375rem;
+    }
+
+    .comparison-table thead th {
+      background: var(--bg-dark);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .comparison-table thead th:first-child {
+      border-radius: var(--radius) 0 0 0;
+    }
+
+    .comparison-table thead th:last-child {
+      border-radius: 0 var(--radius) 0 0;
+    }
+
+    .comparison-table .brand-col {
+      background: var(--primary-light);
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    .comparison-table tbody tr:hover {
+      background: var(--bg-alt);
+    }
+
+    .check {
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .cross {
+      color: var(--text-muted);
+    }
+
+    .partial {
+      color: var(--warning);
+      font-weight: 500;
+    }
+
+    /* Pricing */
+    .pricing-card {
+      max-width: 480px;
+      margin: 0 auto;
+      background: var(--bg);
+      border: 2px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: 1rem;
+      right: -2rem;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.25rem 2.5rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transform: rotate(45deg);
+    }
+
+    .pricing-card h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .pricing-card .price {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 1rem 0;
+    }
+
+    .pricing-card .price-note {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .pricing-features {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 2rem;
+    }
+
+    .pricing-features li {
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+    }
+
+    .pricing-features li i {
+      color: var(--success);
+      flex-shrink: 0;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(135deg, var(--primary-900), var(--primary-dark));
+      color: #fff;
+      text-align: center;
+      padding: 5rem 1.5rem;
+    }
+
+    .cta-section h2 {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .cta-section p {
+      font-size: 1.125rem;
+      opacity: 0.9;
+      max-width: 560px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+
+    .cta-section .btn-primary {
+      background: #fff;
+      color: var(--primary-dark);
+      font-size: 1.0625rem;
+      padding: 1rem 2.5rem;
+    }
+
+    .cta-section .btn-primary:hover {
+      background: var(--primary-light);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+
+    /* Waitlist Form */
+    .waitlist-form {
+      display: flex;
+      gap: 0.75rem;
+      max-width: 480px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .waitlist-form input {
+      flex: 1;
+      min-width: 240px;
+      padding: 0.875rem 1.25rem;
+      border-radius: var(--radius);
+      border: 2px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .waitlist-form input::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .waitlist-form input:focus {
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--bg-dark);
+      color: #fff;
+      padding: 3rem 1.5rem 2rem;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-brand {
+      max-width: 300px;
+    }
+
+    .footer-brand .footer-logo {
+      font-size: 1.125rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links-col h4 {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links-col a {
+      display: block;
+      font-size: 0.875rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      padding: 0.25rem 0;
+      transition: color 0.2s;
+    }
+
+    .footer-links-col a:hover {
+      color: var(--primary);
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-bottom p {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .footer-bottom a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8125rem;
+      transition: color 0.2s;
+    }
+
+    .footer-bottom a:hover {
+      color: var(--primary);
+    }
+
+    .powered-by {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 1rem;
+    }
+
+    .powered-by a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: flex;
+      }
+
+      .hero {
+        padding: 3rem 1rem 2.5rem;
+      }
+
+      .hero-stats {
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 3rem 1rem;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .pricing-card {
+        padding: 2rem;
+      }
+
+      .waitlist-form {
+        flex-direction: column;
+      }
+
+      .waitlist-form input {
+        min-width: auto;
+      }
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Beta Banner -->
+  <div class="beta-banner">
+    <span>BETA PREVIEW</span> Share feedback and help shape the future of dental practice management
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="https://dentaloneiq.toolsiq.ai" class="nav-logo">
+        Dental<span class="logo-one">One</span>IQ
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#comparison">Compare</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#waitlist" class="nav-cta">Join Waitlist</a></li>
+      </ul>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+        <i data-lucide="menu" width="24" height="24"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Now in Beta
+      </div>
+      <h1>
+        The <span class="highlight">All-in-One</span> Provider App<br>
+        for Modern Dental Practices
+      </h1>
+      <p>
+        Stop juggling 5+ tools. DentalOneIQ combines AI voice receptionist, smart scheduling,
+        payments, reviews, team chat, and real-time KPIs into a single provider app built for
+        how dental teams actually work.
+      </p>
+      <div class="hero-cta">
+        <a href="#waitlist" class="btn btn-primary">
+          <i data-lucide="rocket" width="18" height="18"></i>
+          Join the Beta &mdash; It's Free
+        </a>
+        <a href="#features" class="btn btn-outline">
+          <i data-lucide="play-circle" width="18" height="18"></i>
+          See Features
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="number">12+</div>
+          <div class="label">Integrated Tools</div>
+        </div>
+        <div class="hero-stat">
+          <div class="number">$0</div>
+          <div class="label">During Beta</div>
+        </div>
+        <div class="hero-stat">
+          <div class="number">AI</div>
+          <div class="label">Powered by VoicesIQ</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Features</span>
+        <h2>Everything Your Practice Needs, Nothing It Doesn't</h2>
+        <p>Each feature is purpose-built for dental workflows, not retrofitted from another industry.</p>
+      </div>
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="mic" width="24" height="24"></i>
+          </div>
+          <h3>AI Voice Receptionist</h3>
+          <p>Never miss a call. Our AI answers, schedules, and triages calls 24/7 with natural conversation powered by VoicesIQ.</p>
+          <span class="feature-badge">AI-Powered</span>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="activity" width="24" height="24"></i>
+          </div>
+          <h3>Practice Pulse KPIs</h3>
+          <p>Real-time dashboard showing production, collections, patient flow, and team performance at a glance.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="message-circle" width="24" height="24"></i>
+          </div>
+          <h3>Team Chat</h3>
+          <p>HIPAA-compliant messaging built for clinical teams. Share updates, assign tasks, and coordinate between operatories.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="calendar-check" width="24" height="24"></i>
+          </div>
+          <h3>Smart Scheduling</h3>
+          <p>AI-optimized scheduling that fills gaps, reduces no-shows with automated reminders, and maximizes chair time.</p>
+          <span class="feature-badge">AI-Powered</span>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="credit-card" width="24" height="24"></i>
+          </div>
+          <h3>Payments</h3>
+          <p>Tap to Pay, Text to Pay, and in-office payments. Reduce AR days and give patients flexible payment options.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="voicemail" width="24" height="24"></i>
+          </div>
+          <h3>Voicemail + AI Transcription</h3>
+          <p>Every voicemail auto-transcribed with AI summaries, priority tagging, and one-tap callback.</p>
+          <span class="feature-badge">AI-Powered</span>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="star" width="24" height="24"></i>
+          </div>
+          <h3>Reviews &amp; Reputation</h3>
+          <p>Automated review requests, monitoring across Google and Yelp, and AI-drafted responses to keep your rating high.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="phone-call" width="24" height="24"></i>
+          </div>
+          <h3>Phone Activity Monitor</h3>
+          <p>See every inbound and outbound call in real time. Track hold times, missed calls, and staff responsiveness.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="pill" width="24" height="24"></i>
+          </div>
+          <h3>Prescription Management</h3>
+          <p>Digital prescriptions with pharmacy integration. Quick templates for common dental medications.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="flask-conical" width="24" height="24"></i>
+          </div>
+          <h3>Lab Results Tracking</h3>
+          <p>Track lab cases from impression to delivery. Get notifications when cases ship and arrive.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="siren" width="24" height="24"></i>
+          </div>
+          <h3>Emergency Calls</h3>
+          <p>After-hours emergency routing with AI triage. Patients reach the right provider for urgent needs.</p>
+          <span class="feature-badge">AI-Powered</span>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i data-lucide="smartphone" width="24" height="24"></i>
+          </div>
+          <h3>Mobile-First Design</h3>
+          <p>Full-featured on any phone or tablet. Manage your practice from anywhere, no desktop required.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section id="comparison" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Compare</span>
+        <h2>DentalOneIQ vs. Weave</h2>
+        <p>More features, better AI, lower cost. See how DentalOneIQ stacks up against the market leader.</p>
+      </div>
+      <div class="comparison-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th class="brand-col">DentalOneIQ</th>
+              <th>Weave</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>AI Voice Receptionist (24/7)</td>
+              <td class="brand-col"><span class="check">Included</span></td>
+              <td><span class="partial">Add-on $$</span></td>
+            </tr>
+            <tr>
+              <td>AI Voicemail Transcription</td>
+              <td class="brand-col"><span class="check">Included</span></td>
+              <td><span class="cross">No</span></td>
+            </tr>
+            <tr>
+              <td>Practice Pulse KPIs</td>
+              <td class="brand-col"><span class="check">Real-time</span></td>
+              <td><span class="partial">Basic analytics</span></td>
+            </tr>
+            <tr>
+              <td>Team Chat (HIPAA)</td>
+              <td class="brand-col"><span class="check">Included</span></td>
+              <td><span class="check">Included</span></td>
+            </tr>
+            <tr>
+              <td>Smart Scheduling (AI)</td>
+              <td class="brand-col"><span class="check">AI-optimized</span></td>
+              <td><span class="partial">Manual</span></td>
+            </tr>
+            <tr>
+              <td>Tap to Pay / Text to Pay</td>
+              <td class="brand-col"><span class="check">Both included</span></td>
+              <td><span class="check">Text to Pay</span></td>
+            </tr>
+            <tr>
+              <td>Reviews &amp; Reputation</td>
+              <td class="brand-col"><span class="check">AI responses</span></td>
+              <td><span class="check">Templates</span></td>
+            </tr>
+            <tr>
+              <td>Prescription Management</td>
+              <td class="brand-col"><span class="check">Included</span></td>
+              <td><span class="cross">No</span></td>
+            </tr>
+            <tr>
+              <td>Lab Results Tracking</td>
+              <td class="brand-col"><span class="check">Included</span></td>
+              <td><span class="cross">No</span></td>
+            </tr>
+            <tr>
+              <td>Emergency Call Routing</td>
+              <td class="brand-col"><span class="check">AI triage</span></td>
+              <td><span class="partial">Basic routing</span></td>
+            </tr>
+            <tr>
+              <td>Phone Activity Dashboard</td>
+              <td class="brand-col"><span class="check">Real-time</span></td>
+              <td><span class="check">Included</span></td>
+            </tr>
+            <tr>
+              <td>Beta Pricing</td>
+              <td class="brand-col"><span class="check" style="font-size:1.125rem">FREE</span></td>
+              <td>$399+/mo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Pricing</span>
+        <h2>Beta Access Is Completely Free</h2>
+        <p>Be one of the first practices to use DentalOneIQ. No credit card, no commitment, no catch.</p>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-badge">BETA</div>
+        <h3>Early Access</h3>
+        <div class="price">$0</div>
+        <div class="price-note">Free during beta. Launch pricing announced later.</div>
+        <ul class="pricing-features">
+          <li><i data-lucide="check" width="18" height="18"></i> All 12+ features included</li>
+          <li><i data-lucide="check" width="18" height="18"></i> AI Voice Receptionist</li>
+          <li><i data-lucide="check" width="18" height="18"></i> Unlimited team members</li>
+          <li><i data-lucide="check" width="18" height="18"></i> Practice Pulse KPIs</li>
+          <li><i data-lucide="check" width="18" height="18"></i> Smart Scheduling</li>
+          <li><i data-lucide="check" width="18" height="18"></i> Payments (Tap + Text to Pay)</li>
+          <li><i data-lucide="check" width="18" height="18"></i> Priority support</li>
+          <li><i data-lucide="check" width="18" height="18"></i> Shape the product roadmap</li>
+        </ul>
+        <a href="#waitlist" class="btn btn-primary" style="width:100%;justify-content:center">
+          Join the Waitlist
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / Waitlist -->
+  <section id="waitlist" class="cta-section">
+    <div class="container">
+      <h2>Ready to Simplify Your Practice?</h2>
+      <p>Join the beta waitlist and be among the first dental practices to experience the future of provider tools.</p>
+      <div class="waitlist-form">
+        <input type="email" placeholder="your@email.com" aria-label="Email address" id="waitlistEmail">
+        <button class="btn btn-primary" onclick="joinWaitlist()">
+          <i data-lucide="send" width="18" height="18"></i>
+          Join Waitlist
+        </button>
+      </div>
+      <p style="margin-top:1rem;font-size:0.8125rem;opacity:0.7">No spam. We'll only email you about beta access.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">DentalOneIQ</div>
+        <p>The all-in-one AI-powered provider app for modern dental practices. Built by dentists, for dentists.</p>
+        <div class="powered-by">
+          Powered by <a href="https://toolsiq.ai" target="_blank" rel="noopener">ToolsIQ</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="footer-links-col">
+          <h4>Product</h4>
+          <a href="#features">Features</a>
+          <a href="#comparison">Compare</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#waitlist">Join Beta</a>
+        </div>
+        <div class="footer-links-col">
+          <h4>Company</h4>
+          <a href="https://toolsiq.ai" target="_blank" rel="noopener">ToolsIQ.ai</a>
+          <a href="https://toolsiq.ai/privacy" target="_blank" rel="noopener">Privacy Policy</a>
+          <a href="https://toolsiq.ai/terms" target="_blank" rel="noopener">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy;2026 ToolsIQ LLC. All rights reserved.</p>
+      <div>
+        <a href="https://toolsiq.ai/privacy" target="_blank" rel="noopener">Privacy</a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://toolsiq.ai/terms" target="_blank" rel="noopener">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+      var links = document.querySelector('.nav-links');
+      if (links.style.display === 'flex') {
+        links.style.display = 'none';
+      } else {
+        links.style.display = 'flex';
+        links.style.flexDirection = 'column';
+        links.style.position = 'absolute';
+        links.style.top = '64px';
+        links.style.left = '0';
+        links.style.right = '0';
+        links.style.background = '#fff';
+        links.style.padding = '1rem';
+        links.style.borderBottom = '1px solid #e2e8f0';
+        links.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)';
+      }
+    }
+
+    // Waitlist join
+    function joinWaitlist() {
+      var email = document.getElementById('waitlistEmail').value.trim();
+      if (!email || !email.includes('@')) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+      // In production, this would POST to an API
+      alert('Thanks! We\'ll reach out when beta spots open for ' + email);
+      document.getElementById('waitlistEmail').value = '';
+    }
+  </script>
+</body>
+</html>
