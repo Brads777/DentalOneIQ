@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>VoicesIQ Dental - Practice Management Demo</title>
-  <meta name="description" content="AI-powered dental practice management app demo">
+  <title>DentalOneIQ - Provider App</title>
+  <meta name="description" content="DentalOneIQ AI-powered dental practice management provider app">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -302,44 +302,7 @@
       text-align: center;
     }
 
-    /* Practice Pulse */
-    .pulse-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
-    }
-
-    .pulse-item {
-      background: hsl(var(--secondary));
-      padding: 1rem;
-      border-radius: var(--radius);
-      text-align: center;
-    }
-
-    .pulse-value {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: hsl(var(--primary));
-      margin-bottom: 0.25rem;
-    }
-
-    .pulse-label {
-      font-size: 0.75rem;
-      color: hsl(var(--muted-foreground));
-    }
-
-    .pulse-change {
-      font-size: 0.625rem;
-      margin-top: 0.25rem;
-    }
-
-    .pulse-change.positive {
-      color: hsl(var(--excellent));
-    }
-
-    .pulse-change.negative {
-      color: hsl(var(--critical));
-    }
+    /* (Old pulse-grid styles removed - replaced by KPI funnel) */
 
     /* Badges */
     .badge {
@@ -810,6 +773,584 @@
     .review-stat .big-num { font-size:1.5rem; font-weight:700; }
     .review-stat .label { font-size:0.6875rem; color:hsl(var(--muted-foreground)); }
 
+    /* ========================================== */
+    /* ONBOARDING FLOW                           */
+    /* ========================================== */
+    .onboarding-screen {
+      display: none;
+      min-height: 100vh;
+      flex-direction: column;
+      background: linear-gradient(180deg, #0d9488 0%, #14b8a6 100%);
+      padding: 2rem 1.5rem;
+      color: white;
+    }
+    .onboarding-screen.active {
+      display: flex;
+    }
+    .onboarding-logo {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .onboarding-logo .logo-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 1rem;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .onboarding-logo h1 {
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: white;
+    }
+    .onboarding-progress {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    .ob-progress-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transition: all 0.3s;
+    }
+    .ob-progress-dot.active {
+      background: white;
+      transform: scale(1.2);
+    }
+    .ob-progress-dot.done {
+      background: #22c55e;
+    }
+    .onboarding-title {
+      font-size: 1.375rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.375rem;
+    }
+    .onboarding-subtitle {
+      font-size: 0.875rem;
+      text-align: center;
+      opacity: 0.9;
+      margin-bottom: 1.25rem;
+    }
+    .onboarding-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.25rem;
+      color: hsl(var(--foreground));
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .onboarding-card .ob-form-group {
+      margin-bottom: 1rem;
+    }
+    .onboarding-card .ob-form-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 0.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .onboarding-card .ob-form-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid hsl(var(--border));
+      border-radius: 0.625rem;
+      font-size: 0.875rem;
+      font-family: inherit;
+      background: hsl(var(--card));
+      color: hsl(var(--foreground));
+    }
+    .onboarding-card .ob-form-input:focus {
+      outline: none;
+      border-color: #14b8a6;
+      box-shadow: 0 0 0 3px rgba(20,184,166,0.15);
+    }
+    .onboarding-card .ob-form-input:disabled {
+      background: hsl(var(--secondary));
+      color: hsl(var(--muted-foreground));
+    }
+    .onboarding-card .ob-form-select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid hsl(var(--border));
+      border-radius: 0.625rem;
+      font-size: 0.875rem;
+      font-family: inherit;
+      background: white;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+    }
+    .ob-practice-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #fef3c7;
+      color: #d97706;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.625rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+    .ob-role-display {
+      background: #f0fdfa;
+      border: 1px solid #99f6e4;
+      border-radius: 0.625rem;
+      padding: 0.75rem;
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+    .ob-role-label {
+      font-size: 0.625rem;
+      color: hsl(var(--muted-foreground));
+      text-transform: uppercase;
+    }
+    .ob-role-value {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #0d9488;
+    }
+    .ob-btn {
+      padding: 0.875rem 1.5rem;
+      border-radius: 0.75rem;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .ob-btn-primary {
+      background: #14b8a6;
+      color: white;
+    }
+    .ob-btn-primary:hover {
+      background: #0d9488;
+    }
+    .ob-btn-primary:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+    .ob-btn-outline {
+      background: transparent;
+      border: 2px solid hsl(var(--border));
+      color: hsl(var(--muted-foreground));
+    }
+    .ob-btn-outline:hover {
+      border-color: #14b8a6;
+      color: #14b8a6;
+    }
+    /* OTP */
+    .ob-otp-container {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin: 1.25rem 0;
+    }
+    .ob-otp-input {
+      width: 44px;
+      height: 52px;
+      border: 2px solid hsl(var(--border));
+      border-radius: 0.625rem;
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      font-family: inherit;
+    }
+    .ob-otp-input:focus {
+      outline: none;
+      border-color: #14b8a6;
+    }
+    .ob-otp-input.filled {
+      border-color: #22c55e;
+      background: #f0fdf4;
+    }
+    .ob-resend-link {
+      text-align: center;
+      margin-top: 0.75rem;
+      font-size: 0.75rem;
+      color: hsl(var(--muted-foreground));
+    }
+    .ob-resend-link a {
+      color: #14b8a6;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    /* Photo */
+    .ob-photo-upload-area {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px dashed hsl(var(--border));
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      overflow: hidden;
+      background: hsl(var(--secondary));
+      position: relative;
+    }
+    .ob-photo-upload-area:hover {
+      border-color: #14b8a6;
+    }
+    .ob-photo-upload-area img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .ob-photo-upload-icon {
+      font-size: 2rem;
+      color: hsl(var(--muted-foreground));
+    }
+    .ob-photo-upload-text {
+      font-size: 0.6875rem;
+      text-align: center;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 0.75rem;
+    }
+    .ob-crop-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 2000;
+      display: none;
+      flex-direction: column;
+      padding: 1.25rem;
+      justify-content: center;
+      align-items: center;
+    }
+    .ob-crop-overlay.show {
+      display: flex;
+    }
+    .ob-crop-title {
+      color: white;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .ob-crop-frame {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 3px solid white;
+      overflow: hidden;
+      position: relative;
+    }
+    .ob-crop-image {
+      position: absolute;
+      cursor: move;
+      min-width: 100%;
+      min-height: 100%;
+    }
+    .ob-crop-controls {
+      margin-top: 1.25rem;
+      width: 100%;
+      max-width: 300px;
+    }
+    .ob-zoom-slider {
+      width: 100%;
+      margin: 0.5rem 0;
+    }
+    .ob-crop-buttons {
+      display: flex;
+      gap: 0.625rem;
+      margin-top: 1rem;
+    }
+    .ob-crop-buttons .ob-btn {
+      flex: 1;
+    }
+    /* Password */
+    .ob-password-rules {
+      margin-top: 0.5rem;
+    }
+    .ob-rule {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.6875rem;
+      color: #94a3b8;
+      margin-bottom: 0.25rem;
+    }
+    .ob-rule.valid {
+      color: #22c55e;
+    }
+    .ob-rule-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid currentColor;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      flex-shrink: 0;
+    }
+    .ob-rule.valid .ob-rule-icon {
+      background: #22c55e;
+      border-color: #22c55e;
+      color: white;
+    }
+    /* Success */
+    .ob-success-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #22c55e;
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: white;
+    }
+    .ob-success-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-align: center;
+      color: hsl(var(--foreground));
+      margin-bottom: 0.5rem;
+    }
+    .ob-success-subtitle {
+      font-size: 0.8125rem;
+      text-align: center;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 1.25rem;
+    }
+    .ob-account-summary {
+      background: hsl(var(--secondary));
+      border-radius: 0.75rem;
+      padding: 0.875rem;
+    }
+    .ob-summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid hsl(var(--border));
+      font-size: 0.75rem;
+    }
+    .ob-summary-row:last-child {
+      border-bottom: none;
+    }
+    .ob-summary-label {
+      color: hsl(var(--muted-foreground));
+    }
+    .ob-summary-value {
+      font-weight: 600;
+      color: hsl(var(--foreground));
+    }
+    /* OAuth */
+    .ob-oauth-divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 1rem 0;
+      color: hsl(var(--muted-foreground));
+      font-size: 0.75rem;
+    }
+    .ob-oauth-divider::before,
+    .ob-oauth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: hsl(var(--border));
+    }
+    .ob-oauth-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .ob-oauth-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ob-oauth-btn.google {
+      background: white;
+      border: 1.5px solid #4285F4;
+      color: hsl(var(--foreground));
+    }
+    .ob-oauth-btn.google:hover {
+      background: #f0f6ff;
+    }
+    .ob-oauth-btn.microsoft {
+      background: white;
+      border: 1.5px solid #00A4EF;
+      color: hsl(var(--foreground));
+    }
+    .ob-oauth-btn.microsoft:hover {
+      background: #e8f7ff;
+    }
+    .ob-oauth-btn.github {
+      background: #24292e;
+      border: 1.5px solid #24292e;
+      color: white;
+    }
+    .ob-oauth-btn.github:hover {
+      background: #2f363d;
+    }
+    .ob-oauth-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* ========================================== */
+    /* PRACTICE PULSE - Full KPI Funnel           */
+    /* ========================================== */
+    .pulse-card-wrapper {
+      margin-bottom: 1rem;
+    }
+    .pulse-header-bar {
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+      padding: 0.875rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .pulse-header-bar:hover {
+      background: hsl(var(--secondary));
+    }
+    .pulse-header-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .pulse-header-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: hsl(var(--foreground));
+    }
+    .pulse-header-summary {
+      font-size: 0.6875rem;
+      margin-top: 0.125rem;
+    }
+    .pulse-header-good {
+      color: hsl(var(--excellent));
+    }
+    .pulse-header-warn {
+      color: hsl(var(--warning));
+    }
+    .pulse-toggle-arrow {
+      color: hsl(var(--muted-foreground));
+      transition: transform 0.3s;
+      font-size: 0.75rem;
+    }
+    .pulse-toggle-arrow.expanded {
+      transform: rotate(180deg);
+    }
+    .pulse-kpi-list {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .pulse-kpi-list.expanded {
+      max-height: 600px;
+    }
+    .kpi-funnel-card {
+      background: hsl(var(--card));
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      margin-top: 0.5rem;
+    }
+    .kpi-funnel-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .kpi-funnel-expand {
+      color: hsl(var(--muted-foreground));
+      font-size: 0.625rem;
+      margin-top: 0.125rem;
+      flex-shrink: 0;
+    }
+    .kpi-funnel-main {
+      flex: 1;
+      min-width: 0;
+    }
+    .kpi-funnel-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: hsl(var(--foreground));
+      margin-bottom: 0.125rem;
+    }
+    .kpi-funnel-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .kpi-funnel-change {
+      font-size: 0.625rem;
+      font-weight: 600;
+    }
+    .kpi-funnel-change.up {
+      color: hsl(var(--excellent));
+    }
+    .kpi-funnel-change.down {
+      color: hsl(var(--critical));
+    }
+    .kpi-funnel-change.neutral {
+      color: hsl(var(--muted-foreground));
+    }
+    .kpi-funnel-goal {
+      font-size: 0.5625rem;
+      color: hsl(var(--muted-foreground));
+    }
+    .kpi-funnel-values {
+      display: flex;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+    .kpi-funnel-value-block {
+      text-align: right;
+    }
+    .kpi-funnel-big {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: hsl(var(--foreground));
+    }
+    .kpi-funnel-small {
+      font-size: 0.5625rem;
+      color: hsl(var(--muted-foreground));
+      text-transform: uppercase;
+    }
+
     /* Auth Screens */
     .auth-screen {
       display: none;
@@ -1060,6 +1601,202 @@
   </style>
 </head>
 <body>
+  <!-- ================================== -->
+  <!-- 5-STEP ONBOARDING FLOW            -->
+  <!-- ================================== -->
+  <div id="onboarding-wrapper">
+
+    <!-- STEP 1: Verify Your Information -->
+    <div id="ob-step-1" class="onboarding-screen">
+      <div class="onboarding-logo">
+        <div class="logo-icon">D1</div>
+        <h1>DentalOneIQ</h1>
+      </div>
+      <div class="onboarding-progress">
+        <div class="ob-progress-dot active"></div>
+        <div class="ob-progress-dot"></div>
+        <div class="ob-progress-dot"></div>
+        <div class="ob-progress-dot"></div>
+        <div class="ob-progress-dot"></div>
+      </div>
+      <div class="onboarding-title">Verify Your Information</div>
+      <div class="onboarding-subtitle">Confirm your details to get started</div>
+      <div class="onboarding-card">
+        <div class="ob-form-group">
+          <label class="ob-form-label">Practice <span class="ob-practice-badge">2 Invitations</span></label>
+          <select class="ob-form-select" id="ob-practice-select" onchange="obUpdatePractice()">
+            <option value="dsi">Dentistry Specialist Integrated</option>
+            <option value="smilecare">SmileCare Family Dental - Reston</option>
+          </select>
+        </div>
+        <div class="ob-form-group">
+          <label class="ob-form-label">Full Name</label>
+          <input type="text" class="ob-form-input" id="ob-user-name" value="Dr. Sanjeev Bhatia">
+        </div>
+        <div class="ob-form-group">
+          <label class="ob-form-label">Email</label>
+          <input type="email" class="ob-form-input" value="dr.bhatia@dentistryspecialist.com" disabled>
+        </div>
+        <div class="ob-role-display">
+          <div class="ob-role-label">Your Role</div>
+          <div class="ob-role-value" id="ob-role-display">Owner / Dentist</div>
+        </div>
+
+        <div class="ob-oauth-divider">or sign in with</div>
+        <div class="ob-oauth-buttons">
+          <button class="ob-oauth-btn google" onclick="obOAuthSignIn('Google')">
+            <svg class="ob-oauth-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Continue with Google
+          </button>
+          <button class="ob-oauth-btn microsoft" onclick="obOAuthSignIn('Microsoft')">
+            <svg class="ob-oauth-icon" viewBox="0 0 24 24"><rect fill="#F25022" x="1" y="1" width="10" height="10"/><rect fill="#7FBA00" x="13" y="1" width="10" height="10"/><rect fill="#00A4EF" x="1" y="13" width="10" height="10"/><rect fill="#FFB900" x="13" y="13" width="10" height="10"/></svg>
+            Continue with Microsoft
+          </button>
+          <button class="ob-oauth-btn github" onclick="obOAuthSignIn('GitHub')">
+            <svg class="ob-oauth-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.02 0c2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            Continue with GitHub
+          </button>
+        </div>
+
+        <button class="ob-btn ob-btn-primary" onclick="obGoToStep(2)" style="margin-top:auto">Continue</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Verify Your Identity -->
+    <div id="ob-step-2" class="onboarding-screen">
+      <div class="onboarding-logo">
+        <div class="logo-icon">D1</div>
+        <h1>DentalOneIQ</h1>
+      </div>
+      <div class="onboarding-progress">
+        <div class="ob-progress-dot done"></div>
+        <div class="ob-progress-dot active"></div>
+        <div class="ob-progress-dot"></div>
+        <div class="ob-progress-dot"></div>
+        <div class="ob-progress-dot"></div>
+      </div>
+      <div class="onboarding-title">Verify Your Identity</div>
+      <div class="onboarding-subtitle">Enter the 6-digit code sent to your email</div>
+      <div class="onboarding-card">
+        <div style="font-size:0.875rem;font-weight:600;color:hsl(var(--muted-foreground));margin-bottom:0.75rem">Verification Code</div>
+        <div class="ob-otp-container">
+          <input type="text" class="ob-otp-input" maxlength="1" oninput="obHandleOtp(this, 0)" onkeydown="obHandleOtpKeydown(event, 0)" id="ob-otp-0">
+          <input type="text" class="ob-otp-input" maxlength="1" oninput="obHandleOtp(this, 1)" onkeydown="obHandleOtpKeydown(event, 1)" id="ob-otp-1">
+          <input type="text" class="ob-otp-input" maxlength="1" oninput="obHandleOtp(this, 2)" onkeydown="obHandleOtpKeydown(event, 2)" id="ob-otp-2">
+          <input type="text" class="ob-otp-input" maxlength="1" oninput="obHandleOtp(this, 3)" onkeydown="obHandleOtpKeydown(event, 3)" id="ob-otp-3">
+          <input type="text" class="ob-otp-input" maxlength="1" oninput="obHandleOtp(this, 4)" onkeydown="obHandleOtpKeydown(event, 4)" id="ob-otp-4">
+          <input type="text" class="ob-otp-input" maxlength="1" oninput="obHandleOtp(this, 5)" onkeydown="obHandleOtpKeydown(event, 5)" id="ob-otp-5">
+        </div>
+        <div class="ob-resend-link">Didn't receive a code? <a onclick="showToast('Verification code resent to your email')">Resend</a></div>
+        <button class="ob-btn ob-btn-primary" id="ob-verify-btn" onclick="obGoToStep(3)" disabled style="margin-top:auto">Verify Code</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Add Your Photo -->
+    <div id="ob-step-3" class="onboarding-screen">
+      <div class="onboarding-logo">
+        <div class="logo-icon">D1</div>
+        <h1>DentalOneIQ</h1>
+      </div>
+      <div class="onboarding-progress">
+        <div class="ob-progress-dot done"></div>
+        <div class="ob-progress-dot done"></div>
+        <div class="ob-progress-dot active"></div>
+        <div class="ob-progress-dot"></div>
+        <div class="ob-progress-dot"></div>
+      </div>
+      <div class="onboarding-title">Add Your Photo</div>
+      <div class="onboarding-subtitle">Help your team recognize you</div>
+      <div class="onboarding-card">
+        <div class="ob-photo-upload-area" id="ob-photo-area" onclick="document.getElementById('ob-photo-input').click()">
+          <span class="ob-photo-upload-icon">
+            <i data-lucide="camera" style="width:32px;height:32px"></i>
+          </span>
+        </div>
+        <input type="file" id="ob-photo-input" accept="image/*" style="display:none" onchange="obHandlePhotoSelect(event)">
+        <div class="ob-photo-upload-text">Tap to upload a photo</div>
+        <button class="ob-btn ob-btn-outline" onclick="obGoToStep(4)" style="margin-bottom:0.625rem">Skip for Now</button>
+        <button class="ob-btn ob-btn-primary" id="ob-photo-continue-btn" onclick="obGoToStep(4)" disabled style="margin-top:auto">Continue with Photo</button>
+      </div>
+      <div class="ob-crop-overlay" id="ob-crop-overlay">
+        <div class="ob-crop-title">Position Your Photo</div>
+        <div class="ob-crop-frame" id="ob-crop-frame">
+          <img id="ob-crop-image" class="ob-crop-image" src="">
+        </div>
+        <div class="ob-crop-controls">
+          <label style="color:white;font-size:0.6875rem;">Zoom</label>
+          <input type="range" class="ob-zoom-slider" id="ob-zoom-slider" min="100" max="300" value="100" oninput="obUpdateZoom(this.value)">
+          <div class="ob-crop-buttons">
+            <button class="ob-btn ob-btn-outline" style="color:white;border-color:white" onclick="obCancelCrop()">Cancel</button>
+            <button class="ob-btn ob-btn-primary" onclick="obConfirmCrop()">Use Photo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: Secure Your Account -->
+    <div id="ob-step-4" class="onboarding-screen">
+      <div class="onboarding-logo">
+        <div class="logo-icon">D1</div>
+        <h1>DentalOneIQ</h1>
+      </div>
+      <div class="onboarding-progress">
+        <div class="ob-progress-dot done"></div>
+        <div class="ob-progress-dot done"></div>
+        <div class="ob-progress-dot done"></div>
+        <div class="ob-progress-dot active"></div>
+        <div class="ob-progress-dot"></div>
+      </div>
+      <div class="onboarding-title">Secure Your Account</div>
+      <div class="onboarding-subtitle">Create a strong password</div>
+      <div class="onboarding-card">
+        <div class="ob-form-group">
+          <label class="ob-form-label">Password</label>
+          <input type="password" class="ob-form-input" id="ob-password" oninput="obCheckPassword()">
+        </div>
+        <div class="ob-form-group">
+          <label class="ob-form-label">Confirm Password</label>
+          <input type="password" class="ob-form-input" id="ob-confirm-password" oninput="obCheckPassword()">
+        </div>
+        <div class="ob-password-rules">
+          <div class="ob-rule" id="ob-rule-length"><span class="ob-rule-icon">&#10003;</span> At least 8 characters</div>
+          <div class="ob-rule" id="ob-rule-upper"><span class="ob-rule-icon">&#10003;</span> One uppercase letter</div>
+          <div class="ob-rule" id="ob-rule-number"><span class="ob-rule-icon">&#10003;</span> One number</div>
+          <div class="ob-rule" id="ob-rule-match"><span class="ob-rule-icon">&#10003;</span> Passwords match</div>
+        </div>
+        <button class="ob-btn ob-btn-primary" id="ob-password-btn" onclick="obGoToStep(5)" disabled style="margin-top:auto">Create Account</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: Welcome / Success -->
+    <div id="ob-step-5" class="onboarding-screen">
+      <div class="onboarding-logo">
+        <div class="logo-icon">D1</div>
+        <h1>DentalOneIQ</h1>
+      </div>
+      <div class="onboarding-progress">
+        <div class="ob-progress-dot done"></div>
+        <div class="ob-progress-dot done"></div>
+        <div class="ob-progress-dot done"></div>
+        <div class="ob-progress-dot done"></div>
+        <div class="ob-progress-dot done"></div>
+      </div>
+      <div class="onboarding-card" style="text-align:center;">
+        <div class="ob-success-icon">&#10003;</div>
+        <div class="ob-success-title">Welcome to DentalOneIQ!</div>
+        <div class="ob-success-subtitle">Your account is ready</div>
+        <div class="ob-account-summary">
+          <div class="ob-summary-row"><span class="ob-summary-label">Name</span><span class="ob-summary-value" id="ob-summary-name">Dr. Sanjeev Bhatia</span></div>
+          <div class="ob-summary-row"><span class="ob-summary-label">Primary Practice</span><span class="ob-summary-value" id="ob-summary-practice">Dentistry Specialist Integrated</span></div>
+          <div class="ob-summary-row"><span class="ob-summary-label">Role</span><span class="ob-summary-value" id="ob-summary-role">Owner / Dentist</span></div>
+          <div class="ob-summary-row"><span class="ob-summary-label">Practices Linked</span><span class="ob-summary-value">2</span></div>
+        </div>
+        <button class="ob-btn ob-btn-primary" onclick="obLaunchApp()" style="margin-top:1.25rem">Launch DentalOneIQ</button>
+      </div>
+    </div>
+
+  </div><!-- /onboarding-wrapper -->
+
   <!-- ======================== -->
   <!-- INVITATION SCREEN       -->
   <!-- ======================== -->
@@ -1223,6 +1960,9 @@
   <!-- Demo Banner -->
   <div class="demo-banner">
     Demo Mode - DentalOneIQ Provider App
+  </div>
+  <div class="demo-banner" style="background:hsl(var(--primary));color:white;font-size:0.6875rem">
+    BETA PREVIEW — Share feedback
   </div>
 
   <!-- Side Menu -->
@@ -1447,35 +2187,161 @@
         </div>
       </div>
 
-      <!-- Practice Pulse -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">
-            <i data-lucide="activity" style="width:16px;height:16px"></i>
-            Practice Pulse
-          </span>
+      <!-- Practice Pulse - Full 6-KPI Revenue Funnel -->
+      <div class="pulse-card-wrapper">
+        <div class="pulse-header-bar" onclick="togglePracticePulse()">
+          <div class="pulse-header-info">
+            <i data-lucide="activity" style="width:16px;height:16px;color:hsl(var(--primary))"></i>
+            <div>
+              <div class="pulse-header-title">Practice Pulse</div>
+              <div class="pulse-header-summary">
+                <span class="pulse-header-good">5 Good</span>, <span class="pulse-header-warn">1 Needs Improvement</span>
+              </div>
+            </div>
+          </div>
+          <span class="pulse-toggle-arrow" id="pulse-toggle-arrow">&#9660;</span>
         </div>
-        <div class="card-content">
-          <div class="pulse-grid">
-            <div class="pulse-item">
-              <div class="pulse-value">$12,450</div>
-              <div class="pulse-label">Today's Revenue</div>
-              <div class="pulse-change positive">↑ 8% vs last week</div>
+        <div class="pulse-kpi-list" id="pulse-kpi-list">
+          <!-- KPI 1: New Leads/Conversion -->
+          <div class="kpi-funnel-card">
+            <div class="kpi-funnel-row">
+              <div class="kpi-funnel-expand">&#8250;</div>
+              <div class="kpi-funnel-main">
+                <div class="kpi-funnel-title">New Leads/Conversion</div>
+                <div class="kpi-funnel-meta">
+                  <span class="kpi-funnel-change up">&#8599; +12%</span>
+                  <span class="kpi-funnel-goal">Goal: 30 new/mo</span>
+                </div>
+              </div>
+              <div class="kpi-funnel-values">
+                <div class="kpi-funnel-value-block">
+                  <div class="kpi-funnel-big">32</div>
+                  <div class="kpi-funnel-small">Total</div>
+                </div>
+                <div class="kpi-funnel-value-block">
+                  <div class="kpi-funnel-big">68%</div>
+                  <div class="kpi-funnel-small">Conversion</div>
+                </div>
+              </div>
             </div>
-            <div class="pulse-item">
-              <div class="pulse-value">94%</div>
-              <div class="pulse-label">Chair Utilization</div>
-              <div class="pulse-change positive">↑ 2% vs last week</div>
+          </div>
+          <!-- KPI 2: Treatment Presented -->
+          <div class="kpi-funnel-card">
+            <div class="kpi-funnel-row">
+              <div class="kpi-funnel-expand">&#8250;</div>
+              <div class="kpi-funnel-main">
+                <div class="kpi-funnel-title">Treatment Presented</div>
+                <div class="kpi-funnel-meta">
+                  <span class="kpi-funnel-change up">&#8599; +8%</span>
+                  <span class="kpi-funnel-goal">Goal: $2,500 avg</span>
+                </div>
+              </div>
+              <div class="kpi-funnel-values">
+                <div class="kpi-funnel-value-block">
+                  <div class="kpi-funnel-big">$87,500</div>
+                  <div class="kpi-funnel-small">Total</div>
+                </div>
+                <div class="kpi-funnel-value-block">
+                  <div class="kpi-funnel-big">$2,734</div>
+                  <div class="kpi-funnel-small">Avg/Patient</div>
+                </div>
+              </div>
             </div>
-            <div class="pulse-item">
-              <div class="pulse-value">4.8★</div>
-              <div class="pulse-label">Avg Rating</div>
-              <div class="pulse-change">23 reviews this week</div>
+          </div>
+          <!-- KPI 3: Treatment Accepted -->
+          <div class="kpi-funnel-card">
+            <div class="kpi-funnel-row">
+              <div class="kpi-funnel-expand">&#8250;</div>
+              <div class="kpi-funnel-main">
+                <div class="kpi-funnel-title">Treatment Accepted</div>
+                <div class="kpi-funnel-meta">
+                  <span class="kpi-funnel-change up">&#8599; +4%</span>
+                  <span class="kpi-funnel-goal">Goal: &#8805;67%</span>
+                </div>
+              </div>
+              <div class="kpi-funnel-values">
+                <div class="kpi-funnel-value-block">
+                  <div class="kpi-funnel-big">$62,125</div>
+                  <div class="kpi-funnel-small">Total</div>
+                </div>
+                <div class="kpi-funnel-value-block">
+                  <div class="kpi-funnel-big">71%</div>
+                  <div class="kpi-funnel-small">of Presented</div>
+                </div>
+              </div>
             </div>
-            <div class="pulse-item">
-              <div class="pulse-value">3</div>
-              <div class="pulse-label">Pending Tasks</div>
-              <div class="pulse-change negative">2 urgent</div>
+          </div>
+          <!-- KPI 4: Billed Out -->
+          <div class="kpi-funnel-card">
+            <div class="kpi-funnel-row">
+              <div class="kpi-funnel-expand">&#8250;</div>
+              <div class="kpi-funnel-main">
+                <div class="kpi-funnel-title">Billed Out</div>
+                <div class="kpi-funnel-meta">
+                  <span class="kpi-funnel-change neutral">&#8212; 0%</span>
+                  <span class="kpi-funnel-goal">Goal: &#8805;95%</span>
+                </div>
+              </div>
+              <div class="kpi-funnel-values">
+                <div class="kpi-funnel-value-block">
+                  <div class="kpi-funnel-big">$59,019</div>
+                  <div class="kpi-funnel-small">Total</div>
+                </div>
+                <div class="kpi-funnel-value-block">
+                  <div class="kpi-funnel-big" style="color:hsl(var(--excellent))">95%</div>
+                  <div class="kpi-funnel-small">of Accepted</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- KPI 5: Amount Collected -->
+          <div class="kpi-funnel-card">
+            <div class="kpi-funnel-row">
+              <div class="kpi-funnel-expand">&#8250;</div>
+              <div class="kpi-funnel-main">
+                <div class="kpi-funnel-title">Amount Collected</div>
+                <div class="kpi-funnel-meta">
+                  <span class="kpi-funnel-change down">&#8600; -3%</span>
+                  <span class="kpi-funnel-goal">Goal: &#8805;95%</span>
+                </div>
+              </div>
+              <div class="kpi-funnel-values">
+                <div class="kpi-funnel-value-block">
+                  <div class="kpi-funnel-big">$54,287</div>
+                  <div class="kpi-funnel-small">Total</div>
+                </div>
+                <div class="kpi-funnel-value-block">
+                  <div class="kpi-funnel-big">92%</div>
+                  <div class="kpi-funnel-small">of Billed</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- KPI 6: Patient Feedback -->
+          <div class="kpi-funnel-card">
+            <div class="kpi-funnel-row">
+              <div class="kpi-funnel-expand">&#8250;</div>
+              <div class="kpi-funnel-main">
+                <div class="kpi-funnel-title">Patient Feedback</div>
+                <div class="kpi-funnel-meta">
+                  <span class="kpi-funnel-change up">&#8599; +2</span>
+                  <span class="kpi-funnel-goal">Goal: 40%, 4.8+</span>
+                </div>
+              </div>
+              <div class="kpi-funnel-values">
+                <div class="kpi-funnel-value-block">
+                  <div class="kpi-funnel-big">14</div>
+                  <div class="kpi-funnel-small">Reviews</div>
+                </div>
+                <div class="kpi-funnel-value-block">
+                  <div class="kpi-funnel-big">44%</div>
+                  <div class="kpi-funnel-small">of Patients</div>
+                </div>
+                <div class="kpi-funnel-value-block">
+                  <div class="kpi-funnel-big" style="color:hsl(var(--warning))">&#9733;4.9</div>
+                  <div class="kpi-funnel-small">Rating</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2693,14 +3559,208 @@
     lucide.createIcons();
 
     // ==========================================
+    // Onboarding Flow State
+    // ==========================================
+    var obCropImageData = null;
+    var obUserPhotoData = null;
+    var obIsDragging = false;
+    var obDragStart = { x: 0, y: 0 };
+    var obCropPosition = { x: 0, y: 0 };
+
+    function obGoToStep(step) {
+      document.querySelectorAll('.onboarding-screen').forEach(function(s) {
+        s.classList.remove('active');
+      });
+      var target = document.getElementById('ob-step-' + step);
+      if (target) {
+        target.classList.add('active');
+        lucide.createIcons();
+      }
+      if (step === 5) {
+        var nameEl = document.getElementById('ob-user-name');
+        var practiceEl = document.getElementById('ob-practice-select');
+        var roleEl = document.getElementById('ob-role-display');
+        if (nameEl) document.getElementById('ob-summary-name').textContent = nameEl.value;
+        if (practiceEl) {
+          var pText = practiceEl.value === 'dsi' ? 'Dentistry Specialist Integrated' : 'SmileCare Dental';
+          document.getElementById('ob-summary-practice').textContent = pText;
+        }
+        if (roleEl) document.getElementById('ob-summary-role').textContent = roleEl.textContent;
+      }
+    }
+
+    function obUpdatePractice() {
+      var practice = document.getElementById('ob-practice-select').value;
+      var role = practice === 'dsi' ? 'Owner / Dentist' : 'Associate Dentist';
+      document.getElementById('ob-role-display').textContent = role;
+    }
+
+    function obHandleOtp(input, idx) {
+      if (input.value.length === 1) {
+        input.classList.add('filled');
+        if (idx < 5) document.getElementById('ob-otp-' + (idx + 1)).focus();
+      }
+      var allFilled = true;
+      for (var i = 0; i < 6; i++) {
+        if (!document.getElementById('ob-otp-' + i).value) allFilled = false;
+      }
+      document.getElementById('ob-verify-btn').disabled = !allFilled;
+    }
+
+    function obHandleOtpKeydown(e, idx) {
+      if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+        document.getElementById('ob-otp-' + (idx - 1)).focus();
+      }
+    }
+
+    function obHandlePhotoSelect(e) {
+      var file = e.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(ev) {
+        obCropImageData = ev.target.result;
+        document.getElementById('ob-crop-image').src = obCropImageData;
+        document.getElementById('ob-crop-overlay').classList.add('show');
+        obCropPosition = { x: 0, y: 0 };
+        document.getElementById('ob-zoom-slider').value = 100;
+        obUpdateCropImage();
+        var cropImg = document.getElementById('ob-crop-image');
+        cropImg.onmousedown = obStartDrag;
+        cropImg.ontouchstart = obStartDrag;
+        document.onmousemove = obDoDrag;
+        document.ontouchmove = obDoDrag;
+        document.onmouseup = obEndDrag;
+        document.ontouchend = obEndDrag;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function obStartDrag(e) {
+      obIsDragging = true;
+      var touch = e.touches ? e.touches[0] : e;
+      obDragStart = { x: touch.clientX - obCropPosition.x, y: touch.clientY - obCropPosition.y };
+      e.preventDefault();
+    }
+
+    function obDoDrag(e) {
+      if (!obIsDragging) return;
+      var touch = e.touches ? e.touches[0] : e;
+      obCropPosition.x = touch.clientX - obDragStart.x;
+      obCropPosition.y = touch.clientY - obDragStart.y;
+      obUpdateCropImage();
+    }
+
+    function obEndDrag() { obIsDragging = false; }
+
+    function obUpdateZoom() { obUpdateCropImage(); }
+
+    function obUpdateCropImage() {
+      var img = document.getElementById('ob-crop-image');
+      var zoom = document.getElementById('ob-zoom-slider').value / 100;
+      img.style.transform = 'translate(' + obCropPosition.x + 'px, ' + obCropPosition.y + 'px) scale(' + zoom + ')';
+    }
+
+    function obCancelCrop() {
+      document.getElementById('ob-crop-overlay').classList.remove('show');
+      document.getElementById('ob-photo-input').value = '';
+    }
+
+    function obConfirmCrop() {
+      var canvas = document.createElement('canvas');
+      canvas.width = 200;
+      canvas.height = 200;
+      var ctx = canvas.getContext('2d');
+      var img = new Image();
+      img.onload = function() {
+        var zoom = document.getElementById('ob-zoom-slider').value / 100;
+        var size = 200 / zoom;
+        var sx = -obCropPosition.x / zoom + (img.width - size) / 2;
+        var sy = -obCropPosition.y / zoom + (img.height - size) / 2;
+        ctx.beginPath();
+        ctx.arc(100, 100, 100, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.drawImage(img, sx, sy, size, size, 0, 0, 200, 200);
+        obUserPhotoData = canvas.toDataURL('image/jpeg', 0.9);
+        var photoArea = document.getElementById('ob-photo-area');
+        while (photoArea.firstChild) photoArea.removeChild(photoArea.firstChild);
+        var photoImg = document.createElement('img');
+        photoImg.src = obUserPhotoData;
+        photoArea.appendChild(photoImg);
+        document.getElementById('ob-crop-overlay').classList.remove('show');
+        document.getElementById('ob-photo-continue-btn').disabled = false;
+        showToast('Photo updated!');
+      };
+      img.src = obCropImageData;
+    }
+
+    function obCheckPassword() {
+      var pwd = document.getElementById('ob-password').value;
+      var confirm = document.getElementById('ob-confirm-password').value;
+      var hasLength = pwd.length >= 8;
+      var hasUpper = /[A-Z]/.test(pwd);
+      var hasNumber = /[0-9]/.test(pwd);
+      var matches = pwd === confirm && pwd.length > 0;
+      document.getElementById('ob-rule-length').classList.toggle('valid', hasLength);
+      document.getElementById('ob-rule-upper').classList.toggle('valid', hasUpper);
+      document.getElementById('ob-rule-number').classList.toggle('valid', hasNumber);
+      document.getElementById('ob-rule-match').classList.toggle('valid', matches);
+      document.getElementById('ob-password-btn').disabled = !(hasLength && hasUpper && hasNumber && matches);
+    }
+
+    function obOAuthSignIn(provider) {
+      showToast('Signing in with ' + provider + '...');
+      setTimeout(function() {
+        var nameEl = document.getElementById('ob-user-name');
+        var practiceEl = document.getElementById('ob-practice-select');
+        var roleEl = document.getElementById('ob-role-display');
+        if (nameEl) document.getElementById('ob-summary-name').textContent = nameEl.value;
+        if (practiceEl) {
+          document.getElementById('ob-summary-practice').textContent = practiceEl.value === 'dsi' ? 'Dentistry Specialist Integrated' : 'SmileCare Dental';
+        }
+        if (roleEl) document.getElementById('ob-summary-role').textContent = roleEl.textContent;
+        obGoToStep(5);
+      }, 800);
+    }
+
+    function obLaunchApp() {
+      localStorage.setItem('dentaloneiq_onboarding_complete', 'true');
+      localStorage.setItem('dentaloneiq_session', JSON.stringify({
+        name: document.getElementById('ob-user-name').value || 'Dr. Bhatia',
+        email: 'dr.bhatia@dentistryspecialist.com',
+        role: document.getElementById('ob-role-display').textContent || 'Owner / Dentist',
+        registeredAt: new Date().toISOString()
+      }));
+      document.getElementById('onboarding-wrapper').style.display = 'none';
+      enterApp();
+    }
+
+    // ==========================================
+    // Practice Pulse Toggle
+    // ==========================================
+    function togglePracticePulse() {
+      var list = document.getElementById('pulse-kpi-list');
+      var arrow = document.getElementById('pulse-toggle-arrow');
+      list.classList.toggle('expanded');
+      arrow.classList.toggle('expanded');
+    }
+
+    // ==========================================
     // Auth Flow
     // ==========================================
     function initApp() {
-      const isLoggedIn = localStorage.getItem('dentaloneiq_session');
-      const params = new URLSearchParams(window.location.search);
-      const hasInvite = params.has('invite');
+      var onboardingComplete = localStorage.getItem('dentaloneiq_onboarding_complete');
+      var isLoggedIn = localStorage.getItem('dentaloneiq_session');
+      var params = new URLSearchParams(window.location.search);
+      var hasInvite = params.has('invite');
 
-      if (isLoggedIn) {
+      document.getElementById('onboarding-wrapper').style.display = 'none';
+
+      if (!onboardingComplete) {
+        document.getElementById('onboarding-wrapper').style.display = 'block';
+        document.querySelectorAll('.auth-screen').forEach(function(s) { s.classList.remove('active'); });
+        document.getElementById('app-wrapper').classList.remove('active');
+        obGoToStep(1);
+      } else if (isLoggedIn) {
         enterApp();
       } else if (hasInvite) {
         showAuthScreen('invite');
@@ -2710,12 +3770,10 @@
     }
 
     function showAuthScreen(screenId) {
-      // Hide all auth screens
-      document.querySelectorAll('.auth-screen').forEach(s => s.classList.remove('active'));
-      // Hide app
+      document.getElementById('onboarding-wrapper').style.display = 'none';
+      document.querySelectorAll('.auth-screen').forEach(function(s) { s.classList.remove('active'); });
       document.getElementById('app-wrapper').classList.remove('active');
-      // Show target screen
-      const target = document.getElementById('screen-' + screenId);
+      var target = document.getElementById('screen-' + screenId);
       if (target) {
         target.classList.add('active');
         lucide.createIcons();
@@ -2723,11 +3781,11 @@
     }
 
     function handleRegister() {
-      const first = document.getElementById('reg-first').value.trim();
-      const last = document.getElementById('reg-last').value.trim();
-      const email = document.getElementById('reg-email').value.trim();
-      const role = document.getElementById('reg-role').value;
-      const password = document.getElementById('reg-password').value;
+      var first = document.getElementById('reg-first').value.trim();
+      var last = document.getElementById('reg-last').value.trim();
+      var email = document.getElementById('reg-email').value.trim();
+      var role = document.getElementById('reg-role').value;
+      var password = document.getElementById('reg-password').value;
 
       if (!first || !last || !email || !role || !password) {
         showToast('Please fill in all fields');
@@ -2738,7 +3796,7 @@
         return;
       }
 
-      // Store session
+      localStorage.setItem('dentaloneiq_onboarding_complete', 'true');
       localStorage.setItem('dentaloneiq_session', JSON.stringify({
         name: first + ' ' + last,
         email: email,
@@ -2747,14 +3805,13 @@
       }));
 
       showToast('Account created! Welcome to DentalOneIQ');
-      setTimeout(() => enterApp(), 400);
+      setTimeout(function() { enterApp(); }, 400);
     }
 
     function handleLogin() {
-      const email = document.getElementById('login-email').value.trim();
-      const password = document.getElementById('login-password').value;
+      var email = document.getElementById('login-email').value.trim();
 
-      // Demo mode: accept any input, or biometrics (empty fields)
+      localStorage.setItem('dentaloneiq_onboarding_complete', 'true');
       localStorage.setItem('dentaloneiq_session', JSON.stringify({
         name: 'Dr. Bhatia',
         email: email || 'demo@dentistryspecialist.com',
@@ -2763,15 +3820,13 @@
       }));
 
       showToast('Welcome back!');
-      setTimeout(() => enterApp(), 400);
+      setTimeout(function() { enterApp(); }, 400);
     }
 
     function enterApp() {
-      // Hide all auth screens
-      document.querySelectorAll('.auth-screen').forEach(s => s.classList.remove('active'));
-      // Show app
+      document.getElementById('onboarding-wrapper').style.display = 'none';
+      document.querySelectorAll('.auth-screen').forEach(function(s) { s.classList.remove('active'); });
       document.getElementById('app-wrapper').classList.add('active');
-      // Show dashboard
       showPage('dashboard');
       lucide.createIcons();
     }
@@ -2783,7 +3838,7 @@
     }
 
     function togglePasswordVisibility(inputId) {
-      const input = document.getElementById(inputId);
+      var input = document.getElementById(inputId);
       input.type = input.type === 'password' ? 'text' : 'password';
     }
 
@@ -2791,19 +3846,19 @@
     // In-App Navigation
     // ==========================================
     function showPage(pageId) {
-      document.querySelectorAll('.page').forEach(page => {
+      document.querySelectorAll('.page').forEach(function(page) {
         page.classList.remove('active');
       });
 
-      const page = document.getElementById('page-' + pageId);
+      var page = document.getElementById('page-' + pageId);
       if (page) {
         page.classList.add('active');
       }
 
-      document.querySelectorAll('.nav-item').forEach(nav => {
+      document.querySelectorAll('.nav-item').forEach(function(nav) {
         nav.classList.remove('active');
       });
-      const navItem = document.getElementById('nav-' + pageId);
+      var navItem = document.getElementById('nav-' + pageId);
       if (navItem) {
         navItem.classList.add('active');
       }
@@ -2820,21 +3875,18 @@
     }
 
     function showToast(message) {
-      const toast = document.getElementById('toast');
+      var toast = document.getElementById('toast');
       toast.textContent = message;
       toast.classList.add('show');
-      setTimeout(() => {
+      setTimeout(function() {
         toast.classList.remove('show');
       }, 2500);
     }
 
     // Page display rules
-    const style = document.createElement('style');
-    style.textContent = `
-      .page { display: none; }
-      .page.active { display: block; }
-    `;
-    document.head.appendChild(style);
+    var pageStyle = document.createElement('style');
+    pageStyle.textContent = '.page { display: none; } .page.active { display: block; }';
+    document.head.appendChild(pageStyle);
 
     // Boot
     initApp();
