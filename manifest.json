@@ -1,0 +1,12 @@
+{
+  "name": "DentalOneIQ",
+  "short_name": "DentalOneIQ",
+  "description": "The All-in-One Provider App for Modern Dental Practices",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0891b2",
+  "icons": [
+    {"src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any"}
+  ]
+}

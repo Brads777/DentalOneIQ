@@ -5,7 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>DentalOneIQ - Provider App</title>
   <meta name="description" content="DentalOneIQ AI-powered dental practice management provider app">
-  
+
+  <!-- Favicon & PWA -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0891b2">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1598,9 +1605,438 @@
     .app-wrapper.active {
       display: block;
     }
+
+    /* ========================================== */
+    /* DICTATION COMPONENT                        */
+    /* ========================================== */
+    .dictation-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: hsl(var(--muted));
+      color: hsl(var(--muted-foreground));
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .dictation-btn:hover {
+      background: hsl(var(--secondary));
+      color: hsl(var(--primary));
+    }
+    .dictation-btn.recording {
+      background: hsl(var(--critical));
+      color: white;
+      animation: dictation-pulse 1.2s ease-in-out infinite;
+    }
+    .dictation-btn.processing {
+      background: hsl(var(--warning));
+      color: white;
+      pointer-events: none;
+    }
+    .dictation-btn.processing svg,
+    .dictation-btn.processing i {
+      animation: dictation-spin 1s linear infinite;
+    }
+    @keyframes dictation-pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 hsla(0, 84%, 60%, 0.4); }
+      50% { transform: scale(1.1); box-shadow: 0 0 0 8px hsla(0, 84%, 60%, 0); }
+    }
+    @keyframes dictation-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .dictation-btn-sm {
+      width: 28px;
+      height: 28px;
+    }
+    .input-with-mic {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .input-with-mic input,
+    .input-with-mic textarea {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* ========================================== */
+    /* NOTES SYSTEM                               */
+    /* ========================================== */
+    .notes-search-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .notes-search-bar input {
+      flex: 1;
+      padding: 0.625rem 1rem;
+      border: 1px solid hsl(var(--border));
+      border-radius: 2rem;
+      font-size: 0.8125rem;
+      font-family: inherit;
+    }
+    .notes-search-bar input:focus {
+      outline: none;
+      border-color: hsl(var(--primary));
+    }
+    .notes-view-toggle {
+      display: flex;
+      gap: 0.25rem;
+    }
+    .notes-view-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 0.5rem;
+      border: 1px solid hsl(var(--border));
+      background: hsl(var(--card));
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: hsl(var(--muted-foreground));
+    }
+    .notes-view-btn.active {
+      background: hsl(var(--primary));
+      border-color: hsl(var(--primary));
+      color: white;
+    }
+    .notes-group-chips {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding: 0.25rem 0;
+      margin-bottom: 1rem;
+    }
+    .notes-group-chip {
+      padding: 0.375rem 0.75rem;
+      border-radius: 2rem;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      white-space: nowrap;
+      border: 1px solid hsl(var(--border));
+      background: hsl(var(--card));
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .notes-group-chip.active {
+      background: hsl(var(--primary));
+      color: white;
+      border-color: hsl(var(--primary));
+    }
+    .note-card {
+      padding: 1rem;
+      border-bottom: 1px solid hsl(var(--border));
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .note-card:hover {
+      background: hsl(var(--secondary));
+    }
+    .note-card:last-child {
+      border-bottom: none;
+    }
+    .note-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.375rem;
+    }
+    .note-card-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: hsl(var(--foreground));
+    }
+    .note-card-time {
+      font-size: 0.625rem;
+      color: hsl(var(--muted-foreground));
+      white-space: nowrap;
+      margin-left: 0.5rem;
+    }
+    .note-card-body {
+      font-size: 0.75rem;
+      color: hsl(var(--muted-foreground));
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .note-card-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .note-group-tag {
+      font-size: 0.5625rem;
+      font-weight: 600;
+      padding: 0.125rem 0.5rem;
+      border-radius: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .note-group-tag.clinical { background: hsl(var(--primary) / 0.1); color: hsl(var(--primary)); }
+    .note-group-tag.personal { background: hsl(var(--excellent) / 0.1); color: hsl(var(--excellent)); }
+    .note-group-tag.ideas { background: hsl(var(--warning) / 0.1); color: hsl(38 92% 35%); }
+    .note-group-tag.custom { background: hsl(280 60% 50% / 0.1); color: hsl(280 60% 40%); }
+
+    /* Notes grid view */
+    .notes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .notes-grid .note-card {
+      border: 1px solid hsl(var(--border));
+      border-radius: var(--radius);
+      padding: 0.75rem;
+    }
+    .notes-grid .note-card-body {
+      -webkit-line-clamp: 3;
+    }
+
+    /* Note Editor Modal */
+    .note-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 150;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .note-modal-overlay.show {
+      display: flex;
+    }
+    .note-modal {
+      background: hsl(var(--card));
+      width: 100%;
+      max-width: 430px;
+      max-height: 90vh;
+      border-radius: var(--radius) var(--radius) 0 0;
+      display: flex;
+      flex-direction: column;
+      animation: note-modal-slide 0.3s ease;
+    }
+    @keyframes note-modal-slide {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .note-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid hsl(var(--border));
+    }
+    .note-modal-header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .note-modal-close {
+      background: none;
+      border: none;
+      color: hsl(var(--muted-foreground));
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+    .note-modal-body {
+      padding: 1rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .note-modal-body .form-group {
+      margin-bottom: 1rem;
+    }
+    .note-modal-body label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 0.25rem;
+      text-transform: uppercase;
+    }
+    .note-modal-body input,
+    .note-modal-body textarea,
+    .note-modal-body select {
+      width: 100%;
+      padding: 0.625rem 0.75rem;
+      border: 1px solid hsl(var(--border));
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-family: inherit;
+      background: hsl(var(--card));
+      color: hsl(var(--foreground));
+    }
+    .note-modal-body input:focus,
+    .note-modal-body textarea:focus {
+      outline: none;
+      border-color: hsl(var(--primary));
+      box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
+    }
+    .note-modal-body textarea {
+      min-height: 150px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    .note-modal-footer {
+      padding: 1rem;
+      border-top: 1px solid hsl(var(--border));
+      display: flex;
+      gap: 0.5rem;
+    }
+    .note-modal-footer .btn {
+      flex: 1;
+      padding: 0.75rem;
+    }
+
+    /* Note Actions (swipe/click) */
+    .note-actions-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .note-action-btn {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.625rem;
+      font-weight: 600;
+      border: 1px solid hsl(var(--border));
+      border-radius: 0.375rem;
+      background: hsl(var(--card));
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      color: hsl(var(--muted-foreground));
+      font-family: inherit;
+    }
+    .note-action-btn:hover {
+      background: hsl(var(--secondary));
+    }
+    .note-action-btn.delete {
+      color: hsl(var(--critical));
+      border-color: hsl(var(--critical) / 0.3);
+    }
+
+    /* ========================================== */
+    /* FLOATING ACTION BUTTON (Quick Dictate)     */
+    /* ========================================== */
+    .fab-dictate {
+      position: fixed;
+      bottom: 80px;
+      right: 16px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0891b2, #0ea5e9);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(8, 145, 178, 0.4);
+      z-index: 49;
+      transition: all 0.2s;
+    }
+    .fab-dictate:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 16px rgba(8, 145, 178, 0.5);
+    }
+    .fab-dictate:active {
+      transform: scale(0.95);
+    }
+    /* Adjust FAB position for max-width body */
+    @media (min-width: 431px) {
+      .fab-dictate {
+        right: calc(50% - 215px + 16px);
+      }
+    }
+
+    /* Quick Dictate Modal */
+    .quick-dictate-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 160;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .quick-dictate-overlay.show {
+      display: flex;
+    }
+    .quick-dictate-modal {
+      background: hsl(var(--card));
+      width: 100%;
+      max-width: 430px;
+      border-radius: var(--radius) var(--radius) 0 0;
+      padding: 1.25rem;
+      animation: note-modal-slide 0.3s ease;
+    }
+    .quick-dictate-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .quick-dictate-header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .quick-dictate-mic-status {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+    }
+    .quick-dictate-mic-status.idle {
+      background: hsl(var(--muted));
+      color: hsl(var(--muted-foreground));
+    }
+    .quick-dictate-mic-status.active {
+      background: hsl(var(--critical) / 0.1);
+      color: hsl(var(--critical));
+      animation: dictation-pulse 1.2s ease-in-out infinite;
+    }
+
+    /* Skip Navigation Link */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      padding: 0.75rem 1.5rem;
+      z-index: 1000;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0 0 var(--radius) 0;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
   </style>
+  <!-- TODO: Replace PostHog API key with real project key -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    // Initialize with placeholder - Brad will add real API key
+    // posthog.init('phc_REPLACE_WITH_REAL_KEY', {api_host: 'https://us.i.posthog.com'})
+  </script>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- ================================== -->
   <!-- 5-STEP ONBOARDING FLOW            -->
   <!-- ================================== -->
@@ -1966,19 +2402,19 @@
   </div>
 
   <!-- Side Menu -->
-  <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
-  <div class="side-menu" id="sideMenu">
+  <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()" aria-hidden="true"></div>
+  <div class="side-menu" id="sideMenu" role="navigation" aria-label="Main navigation">
     <div class="menu-header">
       <h2>DentalOneIQ</h2>
     </div>
     
     <div class="menu-section">
       <div class="menu-section-title">Immediate Attention</div>
-      <a class="menu-item emergency" onclick="showPage('emergency')">
+      <a class="menu-item emergency" onclick="showPage('emergency')" tabindex="0" role="button">
         <i data-lucide="phone-call" style="width:20px;height:20px"></i>
         <span>Emergency Calls</span>
       </a>
-      <a class="menu-item" onclick="showPage('prescriptions')">
+      <a class="menu-item" onclick="showPage('prescriptions')" tabindex="0" role="button">
         <i data-lucide="file-text" style="width:20px;height:20px"></i>
         <span>Prescription Requests</span>
       </a>
@@ -1986,19 +2422,19 @@
 
     <div class="menu-section">
       <div class="menu-section-title">I Want To</div>
-      <a class="menu-item" onclick="showPage('dashboard')">
+      <a class="menu-item" onclick="showPage('dashboard')" tabindex="0" role="button">
         <i data-lucide="activity" style="width:20px;height:20px"></i>
         <span>Practice Pulse</span>
       </a>
-      <a class="menu-item" onclick="showPage('schedule')">
+      <a class="menu-item" onclick="showPage('schedule')" tabindex="0" role="button">
         <i data-lucide="calendar" style="width:20px;height:20px"></i>
         <span>Schedule</span>
       </a>
-      <a class="menu-item" onclick="showPage('patients')">
+      <a class="menu-item" onclick="showPage('patients')" tabindex="0" role="button">
         <i data-lucide="users" style="width:20px;height:20px"></i>
         <span>Patients</span>
       </a>
-      <a class="menu-item" onclick="showPage('lab-results')">
+      <a class="menu-item" onclick="showPage('lab-results')" tabindex="0" role="button">
         <i data-lucide="flask-conical" style="width:20px;height:20px"></i>
         <span>Lab Results</span>
       </a>
@@ -2006,42 +2442,46 @@
 
     <div class="menu-section">
       <div class="menu-section-title">Tools</div>
-      <a class="menu-item" onclick="showPage('todos')">
+      <a class="menu-item" onclick="showPage('todos')" tabindex="0" role="button">
         <i data-lucide="check-square" style="width:20px;height:20px"></i>
         <span>To-Do List</span>
       </a>
-      <a class="menu-item" onclick="showPage('messages')">
+      <a class="menu-item" onclick="showPage('messages')" tabindex="0" role="button">
         <i data-lucide="message-square" style="width:20px;height:20px"></i>
         <span>Messages</span>
       </a>
-      <a class="menu-item" onclick="showPage('payments')">
+      <a class="menu-item" onclick="showPage('payments')" tabindex="0" role="button">
         <i data-lucide="credit-card" style="width:20px;height:20px"></i>
         <span>Payments</span>
       </a>
-      <a class="menu-item" onclick="showPage('team-chat')">
+      <a class="menu-item" onclick="showPage('team-chat')" tabindex="0" role="button">
         <i data-lucide="message-circle" style="width:20px;height:20px"></i>
         <span>Team Chat</span>
       </a>
-      <a class="menu-item" onclick="showPage('voicemail')">
+      <a class="menu-item" onclick="showPage('voicemail')" tabindex="0" role="button">
         <i data-lucide="voicemail" style="width:20px;height:20px"></i>
         <span>Voicemail</span>
       </a>
-      <a class="menu-item" onclick="showPage('reviews')">
+      <a class="menu-item" onclick="showPage('reviews')" tabindex="0" role="button">
         <i data-lucide="star" style="width:20px;height:20px"></i>
         <span>Reviews</span>
       </a>
-      <a class="menu-item" onclick="showPage('phone-activity')">
+      <a class="menu-item" onclick="showPage('phone-activity')" tabindex="0" role="button">
         <i data-lucide="phone-incoming" style="width:20px;height:20px"></i>
         <span>Phone Activity</span>
       </a>
-      <a class="menu-item" onclick="showPage('office-hours')">
+      <a class="menu-item" onclick="showPage('office-hours')" tabindex="0" role="button">
         <i data-lucide="clock" style="width:20px;height:20px"></i>
         <span>Office Hours</span>
+      </a>
+      <a class="menu-item" onclick="showPage('notes')" tabindex="0" role="button">
+        <i data-lucide="notebook-pen" style="width:20px;height:20px"></i>
+        <span>Notes</span>
       </a>
     </div>
 
     <div class="menu-section">
-      <a class="menu-item" onclick="handleLogout()" style="color:hsl(var(--critical))">
+      <a class="menu-item" onclick="handleLogout()" style="color:hsl(var(--critical))" tabindex="0" role="button">
         <i data-lucide="log-out" style="width:20px;height:20px"></i>
         <span>Sign Out</span>
       </a>
@@ -2049,18 +2489,18 @@
   </div>
 
   <!-- Header -->
-  <header class="header">
+  <header class="header" role="banner">
     <div class="header-left">
-      <button class="menu-btn" onclick="toggleMenu()">
+      <button class="menu-btn" onclick="toggleMenu()" aria-label="Open navigation menu">
         <i data-lucide="menu" style="width:24px;height:24px"></i>
       </button>
-      <svg class="logo" viewBox="0 0 160 32" fill="currentColor">
+      <svg class="logo" viewBox="0 0 160 32" fill="currentColor" role="img" aria-label="DentalOneIQ logo">
         <text x="0" y="24" font-size="18" font-weight="700">DentalOneIQ</text>
       </svg>
     </div>
-    <button class="notification-btn">
+    <button class="notification-btn" aria-label="Notifications">
       <i data-lucide="bell" style="width:24px;height:24px"></i>
-      <span class="notification-badge"></span>
+      <span class="notification-badge" aria-hidden="true"></span>
     </button>
   </header>
 
@@ -2068,7 +2508,7 @@
   <div id="page-dashboard" class="page active">
     <section class="welcome-section">
       <div class="welcome-content">
-        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=100&h=100&fit=crop&crop=face" alt="Dr. Bhatia" class="avatar">
+        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=100&h=100&fit=crop&crop=face" alt="Dr. Bhatia profile photo" class="avatar">
         <div class="welcome-text">
           <h1>Good Morning, Dr. Bhatia</h1>
           <p>You have 8 appointments today</p>
@@ -2076,7 +2516,7 @@
       </div>
     </section>
 
-    <main class="main-content">
+    <main id="main-content" class="main-content" role="main">
       <!-- Emergency Alert -->
       <div class="card emergency-card">
         <div class="card-header">
@@ -2179,9 +2619,9 @@
               <i data-lucide="star" style="width:20px;height:20px"></i>
               <span>Reviews</span>
             </button>
-            <button class="action-btn" onclick="showPage('voicemail')">
-              <i data-lucide="voicemail" style="width:20px;height:20px"></i>
-              <span>Voicemail</span>
+            <button class="action-btn" onclick="showPage('notes')">
+              <i data-lucide="notebook-pen" style="width:20px;height:20px"></i>
+              <span>Notes</span>
             </button>
           </div>
         </div>
@@ -2878,9 +3318,17 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-primary" style="width:100%;margin-top:1rem;padding:0.75rem" onclick="showToast('Compose message...')">
-        <i data-lucide="plus" style="width:16px;height:16px;margin-right:0.5rem"></i> New Message
-      </button>
+      <div class="card" style="margin-top:1rem;padding:0.75rem">
+        <div class="input-with-mic">
+          <input type="text" id="message-compose-input" placeholder="Compose a quick message..." style="flex:1;padding:0.625rem 0.75rem;border:1px solid hsl(var(--border));border-radius:0.5rem;font-size:0.8125rem;font-family:inherit">
+          <button class="dictation-btn" onclick="toggleDictation('message-compose-input', this)" title="Dictate message" id="message-dictation-btn">
+            <i data-lucide="mic" style="width:16px;height:16px"></i>
+          </button>
+          <button class="btn btn-primary" style="padding:0.625rem 1rem;flex-shrink:0" onclick="showToast('Message sent!')">
+            <i data-lucide="send" style="width:14px;height:14px"></i>
+          </button>
+        </div>
+      </div>
     </main>
   </div>
 
@@ -2945,9 +3393,17 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-primary" style="width:100%;margin-top:1rem;padding:0.75rem" onclick="showToast('Add new task...')">
-        <i data-lucide="plus" style="width:16px;height:16px;margin-right:0.5rem"></i> Add Task
-      </button>
+      <div class="card" style="margin-top:1rem;padding:0.75rem">
+        <div class="input-with-mic">
+          <input type="text" id="todo-add-input" placeholder="Type or dictate a new task..." style="flex:1;padding:0.625rem 0.75rem;border:1px solid hsl(var(--border));border-radius:0.5rem;font-size:0.8125rem;font-family:inherit">
+          <button class="dictation-btn" onclick="toggleDictation('todo-add-input', this)" title="Dictate task" id="todo-dictation-btn">
+            <i data-lucide="mic" style="width:16px;height:16px"></i>
+          </button>
+          <button class="btn btn-primary" style="padding:0.625rem 1rem;flex-shrink:0" onclick="addTodoTask()">
+            <i data-lucide="plus" style="width:14px;height:14px"></i>
+          </button>
+        </div>
+      </div>
     </main>
   </div>
 
@@ -3121,7 +3577,10 @@
         <button style="background:none;border:none;color:hsl(var(--muted-foreground));cursor:pointer;padding:0.25rem" onclick="showToast('Attach file...')">
           <i data-lucide="paperclip" style="width:20px;height:20px"></i>
         </button>
-        <input class="chat-input" type="text" placeholder="Type a message...">
+        <input class="chat-input" type="text" placeholder="Type a message..." id="chat-input-field">
+        <button class="dictation-btn dictation-btn-sm" onclick="toggleDictation('chat-input-field', this)" title="Dictate message" id="chat-dictation-btn">
+          <i data-lucide="mic" style="width:14px;height:14px"></i>
+        </button>
         <button class="chat-send" onclick="showToast('Message sent')">
           <i data-lucide="send" style="width:16px;height:16px"></i>
         </button>
@@ -3525,32 +3984,101 @@
     </main>
   </div>
 
+  <!-- Notes Page -->
+  <div id="page-notes" class="page">
+    <div class="page-header">
+      <h1>Notes</h1>
+      <p>Your personal notebook</p>
+    </div>
+    <main class="main-content">
+      <div class="notes-search-bar">
+        <input type="text" id="notes-search-input" placeholder="Search notes..." oninput="filterNotes()">
+        <div class="notes-view-toggle">
+          <button class="notes-view-btn active" id="notes-view-list" onclick="setNotesView('list')" title="List view"><i data-lucide="list" style="width:16px;height:16px"></i></button>
+          <button class="notes-view-btn" id="notes-view-grid" onclick="setNotesView('grid')" title="Grid view"><i data-lucide="layout-grid" style="width:16px;height:16px"></i></button>
+        </div>
+      </div>
+      <div class="notes-group-chips" id="notes-group-chips">
+        <button class="notes-group-chip active" onclick="filterNotesByGroup('all', this)">All</button>
+        <button class="notes-group-chip" onclick="filterNotesByGroup('Clinical Notes', this)">Clinical</button>
+        <button class="notes-group-chip" onclick="filterNotesByGroup('Personal', this)">Personal</button>
+        <button class="notes-group-chip" onclick="filterNotesByGroup('Ideas', this)">Ideas</button>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
+        <span style="font-size:0.6875rem;color:hsl(var(--muted-foreground))" id="notes-count-label">6 notes</span>
+        <select id="notes-sort-select" onchange="renderNotes()" style="padding:0.25rem 0.5rem;border:1px solid hsl(var(--border));border-radius:0.375rem;font-size:0.6875rem;background:hsl(var(--card));font-family:inherit">
+          <option value="date">Newest first</option>
+          <option value="group">By group</option>
+          <option value="title">By title</option>
+        </select>
+      </div>
+      <div class="card" id="notes-container"></div>
+      <button class="btn btn-primary" style="width:100%;margin-top:1rem;padding:0.75rem;font-size:0.875rem" onclick="openNoteModal()"><i data-lucide="plus" style="width:16px;height:16px;margin-right:0.5rem"></i> New Note</button>
+    </main>
+  </div>
+
+  <!-- Note Editor Modal -->
+  <div class="note-modal-overlay" id="note-modal-overlay" onclick="if(event.target===this)closeNoteModal()">
+    <div class="note-modal">
+      <div class="note-modal-header">
+        <h3 id="note-modal-title">New Note</h3>
+        <button class="note-modal-close" onclick="closeNoteModal()"><i data-lucide="x" style="width:20px;height:20px"></i></button>
+      </div>
+      <div class="note-modal-body">
+        <div class="form-group"><label>Title</label><div class="input-with-mic"><input type="text" id="note-edit-title" placeholder="Note title..."><button class="dictation-btn dictation-btn-sm" onclick="toggleDictation('note-edit-title', this)" title="Dictate title"><i data-lucide="mic" style="width:14px;height:14px"></i></button></div></div>
+        <div class="form-group"><label>Content</label><div style="position:relative"><textarea id="note-edit-content" placeholder="Write your note or tap the mic to dictate..."></textarea><button class="dictation-btn" onclick="toggleDictation('note-edit-content', this)" title="Dictate note" style="position:absolute;bottom:8px;right:8px"><i data-lucide="mic" style="width:16px;height:16px"></i></button></div></div>
+        <div class="form-group"><label>Group</label><select id="note-edit-group"><option value="Clinical Notes">Clinical Notes</option><option value="Personal">Personal</option><option value="Ideas">Ideas</option></select></div>
+      </div>
+      <div class="note-modal-footer">
+        <button class="btn btn-outline" onclick="closeNoteModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveNote()">Save Note</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Dictate FAB -->
+  <button class="fab-dictate" id="fab-dictate" onclick="openQuickDictate()" title="Quick dictate a note"><i data-lucide="mic" style="width:24px;height:24px"></i></button>
+
+  <!-- Quick Dictate Modal -->
+  <div class="quick-dictate-overlay" id="quick-dictate-overlay" onclick="if(event.target===this)closeQuickDictate()">
+    <div class="quick-dictate-modal">
+      <div class="quick-dictate-header">
+        <h3><i data-lucide="mic" style="width:18px;height:18px;color:hsl(var(--primary))"></i> Quick Note</h3>
+        <button class="note-modal-close" onclick="closeQuickDictate()"><i data-lucide="x" style="width:20px;height:20px"></i></button>
+      </div>
+      <div class="form-group" style="margin-bottom:0.75rem"><div class="input-with-mic"><input type="text" id="quick-dictate-title" placeholder="Note title (optional)" style="padding:0.625rem 0.75rem;border:1px solid hsl(var(--border));border-radius:0.5rem;font-size:0.8125rem;font-family:inherit"><button class="dictation-btn dictation-btn-sm" onclick="toggleDictation('quick-dictate-title', this)" title="Dictate title"><i data-lucide="mic" style="width:14px;height:14px"></i></button></div></div>
+      <div style="position:relative;margin-bottom:0.75rem"><textarea id="quick-dictate-content" placeholder="Tap the mic or start speaking..." style="width:100%;min-height:100px;padding:0.625rem 0.75rem;border:1px solid hsl(var(--border));border-radius:0.5rem;font-size:0.875rem;font-family:inherit;resize:vertical"></textarea><button class="dictation-btn" id="quick-dictate-mic-btn" onclick="toggleDictation('quick-dictate-content', this)" title="Dictate note" style="position:absolute;bottom:8px;right:8px"><i data-lucide="mic" style="width:16px;height:16px"></i></button></div>
+      <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem"><select id="quick-dictate-group" style="flex:1;padding:0.5rem;border:1px solid hsl(var(--border));border-radius:0.5rem;font-size:0.8125rem;font-family:inherit"><option value="Clinical Notes">Clinical Notes</option><option value="Personal">Personal</option><option value="Ideas">Ideas</option></select></div>
+      <button class="btn btn-primary" style="width:100%;padding:0.75rem" onclick="saveQuickDictateNote()">Save Note</button>
+    </div>
+  </div>
+
   <!-- Bottom Navigation -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard">
+  <nav class="bottom-nav" role="navigation" aria-label="Bottom navigation">
+    <button class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard" aria-label="Home" aria-current="page">
       <i data-lucide="home" style="width:20px;height:20px"></i>
       <span>Home</span>
     </button>
-    <button class="nav-item" onclick="showPage('schedule')" id="nav-schedule">
+    <button class="nav-item" onclick="showPage('schedule')" id="nav-schedule" aria-label="Schedule">
       <i data-lucide="calendar" style="width:20px;height:20px"></i>
       <span>Schedule</span>
     </button>
-    <button class="nav-item" onclick="showPage('patients')" id="nav-patients">
+    <button class="nav-item" onclick="showPage('patients')" id="nav-patients" aria-label="Patients">
       <i data-lucide="users" style="width:20px;height:20px"></i>
       <span>Patients</span>
     </button>
-    <button class="nav-item" onclick="showPage('messages')" id="nav-messages">
+    <button class="nav-item" onclick="showPage('messages')" id="nav-messages" aria-label="Messages">
       <i data-lucide="message-square" style="width:20px;height:20px"></i>
       <span>Messages</span>
     </button>
-    <button class="nav-item" onclick="toggleMenu()" id="nav-more">
+    <button class="nav-item" onclick="toggleMenu()" id="nav-more" aria-label="More options">
       <i data-lucide="more-horizontal" style="width:20px;height:20px"></i>
       <span>More</span>
     </button>
   </nav>
 
   <!-- Toast -->
-  <div class="toast" id="toast">Action completed</div>
+  <div class="toast" id="toast" role="status" aria-live="polite">Action completed</div>
 
   </div><!-- /app-wrapper -->
 
@@ -3575,6 +4103,10 @@
       if (target) {
         target.classList.add('active');
         lucide.createIcons();
+      }
+      // PostHog: track onboarding step
+      if (typeof posthog !== 'undefined') {
+        posthog.capture('onboarding_step_completed', {step: step});
       }
       if (step === 5) {
         var nameEl = document.getElementById('ob-user-name');
@@ -3708,6 +4240,10 @@
     }
 
     function obOAuthSignIn(provider) {
+      // PostHog: track OAuth sign-in attempt
+      if (typeof posthog !== 'undefined') {
+        posthog.capture('feature_used', {feature: 'oauth_signin', provider: provider});
+      }
       showToast('Signing in with ' + provider + '...');
       setTimeout(function() {
         var nameEl = document.getElementById('ob-user-name');
@@ -3731,6 +4267,10 @@
         registeredAt: new Date().toISOString()
       }));
       document.getElementById('onboarding-wrapper').style.display = 'none';
+      // PostHog: track onboarding complete
+      if (typeof posthog !== 'undefined') {
+        posthog.capture('feature_used', {feature: 'onboarding_complete'});
+      }
       enterApp();
     }
 
@@ -3805,6 +4345,10 @@
       }));
 
       showToast('Account created! Welcome to DentalOneIQ');
+      // PostHog: track registration
+      if (typeof posthog !== 'undefined') {
+        posthog.capture('feature_used', {feature: 'register', role: role});
+      }
       setTimeout(function() { enterApp(); }, 400);
     }
 
@@ -3820,6 +4364,10 @@
       }));
 
       showToast('Welcome back!');
+      // PostHog: track login
+      if (typeof posthog !== 'undefined') {
+        posthog.capture('feature_used', {feature: 'login'});
+      }
       setTimeout(function() { enterApp(); }, 400);
     }
 
@@ -3833,6 +4381,10 @@
 
     function handleLogout() {
       localStorage.removeItem('dentaloneiq_session');
+      // PostHog: track logout
+      if (typeof posthog !== 'undefined') {
+        posthog.capture('feature_used', {feature: 'logout'});
+      }
       showAuthScreen('login');
       showToast('Signed out');
     }
@@ -3855,23 +4407,36 @@
         page.classList.add('active');
       }
 
+      // Update nav active state and aria-current
       document.querySelectorAll('.nav-item').forEach(function(nav) {
         nav.classList.remove('active');
+        nav.removeAttribute('aria-current');
       });
       var navItem = document.getElementById('nav-' + pageId);
       if (navItem) {
         navItem.classList.add('active');
+        navItem.setAttribute('aria-current', 'page');
       }
 
       document.getElementById('sideMenu').classList.remove('active');
       document.getElementById('menuOverlay').classList.remove('active');
 
       lucide.createIcons();
+
+      // PostHog: track page view
+      if (typeof posthog !== 'undefined') {
+        posthog.capture('page_viewed', {page: pageId});
+      }
     }
 
     function toggleMenu() {
-      document.getElementById('sideMenu').classList.toggle('active');
+      var sideMenu = document.getElementById('sideMenu');
+      sideMenu.classList.toggle('active');
       document.getElementById('menuOverlay').classList.toggle('active');
+      // PostHog: track menu toggle
+      if (typeof posthog !== 'undefined') {
+        posthog.capture('feature_used', {feature: 'menu_toggle', open: sideMenu.classList.contains('active')});
+      }
     }
 
     function showToast(message) {
@@ -3883,12 +4448,481 @@
       }, 2500);
     }
 
+    // ==========================================
+    // UNIVERSAL DICTATION COMPONENT
+    // (c)2026 ToolsIQ LLC
+    // ==========================================
+    var activeDictation = null; // tracks active SpeechRecognition instance
+    var activeDictationBtn = null;
+    var dictationSilenceTimer = null;
+    var speechRecognitionSupported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+
+    function toggleDictation(targetInputId, btn) {
+      if (!speechRecognitionSupported) {
+        showToast('Speech recognition is not supported in this browser');
+        return;
+      }
+      // If already recording for this target, stop it
+      if (activeDictation && activeDictationBtn === btn) {
+        stopDictation();
+        return;
+      }
+      // If recording for a different target, stop that first
+      if (activeDictation) {
+        stopDictation();
+      }
+      startDictation(targetInputId, btn);
+    }
+
+    function startDictation(targetInputId, btn) {
+      var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      var recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      var targetEl = document.getElementById(targetInputId);
+      if (!targetEl) return;
+
+      var baseText = targetEl.value || '';
+      if (baseText && !baseText.endsWith(' ')) baseText += ' ';
+
+      activeDictation = recognition;
+      activeDictationBtn = btn;
+
+      // Visual: recording state
+      btn.classList.add('recording');
+      btn.classList.remove('processing');
+
+      // Reset silence timer
+      function resetSilenceTimer() {
+        clearTimeout(dictationSilenceTimer);
+        dictationSilenceTimer = setTimeout(function() {
+          stopDictation();
+          showToast('Dictation stopped (silence timeout)');
+        }, 30000);
+      }
+      resetSilenceTimer();
+
+      recognition.onresult = function(event) {
+        resetSilenceTimer();
+        var interim = '';
+        var final = '';
+        for (var i = event.resultIndex; i < event.results.length; i++) {
+          var transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            final += transcript;
+          } else {
+            interim += transcript;
+          }
+        }
+        if (targetEl.tagName === 'TEXTAREA') {
+          targetEl.value = baseText + final + interim;
+        } else {
+          targetEl.value = baseText + final + interim;
+        }
+        // Update base text with finalized results
+        if (final) {
+          baseText = baseText + final;
+          if (!baseText.endsWith(' ')) baseText += ' ';
+        }
+        // Trigger input event so any listeners fire
+        targetEl.dispatchEvent(new Event('input', { bubbles: true }));
+      };
+
+      recognition.onerror = function(event) {
+        if (event.error === 'no-speech') {
+          // Silence, don't stop yet
+          return;
+        }
+        console.warn('Dictation error:', event.error);
+        stopDictation();
+        if (event.error === 'not-allowed') {
+          showToast('Microphone access denied. Check browser permissions.');
+        } else {
+          showToast('Dictation error: ' + event.error);
+        }
+      };
+
+      recognition.onend = function() {
+        // If still in recording state (user didn't manually stop), restart
+        if (activeDictation === recognition && btn.classList.contains('recording')) {
+          try {
+            recognition.start();
+          } catch (e) {
+            stopDictation();
+          }
+        }
+      };
+
+      try {
+        recognition.start();
+      } catch (e) {
+        showToast('Could not start dictation');
+        btn.classList.remove('recording');
+        activeDictation = null;
+        activeDictationBtn = null;
+      }
+    }
+
+    function stopDictation() {
+      clearTimeout(dictationSilenceTimer);
+      if (activeDictation) {
+        var recognition = activeDictation;
+        activeDictation = null; // clear first to prevent onend restart
+        try { recognition.stop(); } catch (e) {}
+      }
+      if (activeDictationBtn) {
+        activeDictationBtn.classList.remove('recording');
+        activeDictationBtn.classList.remove('processing');
+        activeDictationBtn = null;
+      }
+    }
+
+    // Hide all mic buttons if speech recognition not supported
+    function hideMicButtonsIfUnsupported() {
+      if (!speechRecognitionSupported) {
+        var micBtns = document.querySelectorAll('.dictation-btn');
+        for (var i = 0; i < micBtns.length; i++) {
+          micBtns[i].style.display = 'none';
+        }
+        var fab = document.getElementById('fab-dictate');
+        if (fab) fab.style.display = 'none';
+      }
+    }
+
+    // ==========================================
+    // TO-DO LIST - Add Task
+    // ==========================================
+    function addTodoTask() {
+      var input = document.getElementById('todo-add-input');
+      var text = input.value.trim();
+      if (!text) {
+        showToast('Enter a task first');
+        return;
+      }
+      showToast('Task added: ' + text);
+      input.value = '';
+    }
+
+    // ==========================================
+    // NOTES SYSTEM
+    // (c)2026 ToolsIQ LLC
+    // ==========================================
+    var notesViewMode = 'list';
+    var notesFilterGroup = 'all';
+    var editingNoteId = null;
+
+    var defaultNotes = [
+      { id: 'n1', title: 'Crown prep notes - Johnson', body: 'Prepared tooth #14 for PFM crown. 1.5mm reduction occlusal, 1mm axial. Impression taken with PVS. Shade A2. Temp crown placed with TempBond.', group: 'Clinical Notes', timestamp: Date.now() - 86400000 * 2 },
+      { id: 'n2', title: 'Perio assessment - Chen', body: 'Full mouth probing. Generalized 4-5mm pockets in posterior. BOP at #3, #14, #19, #30. Recommend SRP all four quadrants.', group: 'Clinical Notes', timestamp: Date.now() - 86400000 * 3 },
+      { id: 'n3', title: 'Staff meeting agenda', body: '1. New patient intake process 2. Lab turnaround times 3. Holiday schedule 4. Equipment maintenance', group: 'Personal', timestamp: Date.now() - 86400000 * 1 },
+      { id: 'n4', title: 'Conference notes', body: 'ADA Annual Meeting highlights: AI in diagnostics, CAD/CAM workflows, teledentistry trends', group: 'Personal', timestamp: Date.now() - 86400000 * 5 },
+      { id: 'n5', title: 'Marketing ideas', body: 'Partner with local gyms for sports mouthguard promotions. Instagram reels showing before/after cosmetic cases.', group: 'Ideas', timestamp: Date.now() - 86400000 * 4 },
+      { id: 'n6', title: 'Office improvement', body: 'Add patient entertainment system in waiting room. Consider offering nitrous for anxious patients.', group: 'Ideas', timestamp: Date.now() - 86400000 * 7 }
+    ];
+
+    function loadNotes() {
+      var stored = localStorage.getItem('dentaloneiq_notes');
+      if (stored) {
+        try { return JSON.parse(stored); } catch (e) {}
+      }
+      // Initialize with defaults
+      localStorage.setItem('dentaloneiq_notes', JSON.stringify(defaultNotes));
+      return defaultNotes.slice();
+    }
+
+    function saveNotesToStorage(notes) {
+      localStorage.setItem('dentaloneiq_notes', JSON.stringify(notes));
+    }
+
+    function getGroupClass(group) {
+      if (group === 'Clinical Notes') return 'clinical';
+      if (group === 'Personal') return 'personal';
+      if (group === 'Ideas') return 'ideas';
+      return 'custom';
+    }
+
+    function formatNoteTime(ts) {
+      var d = new Date(ts);
+      var now = new Date();
+      var diffMs = now - d;
+      var diffDays = Math.floor(diffMs / 86400000);
+      if (diffDays === 0) return 'Today';
+      if (diffDays === 1) return 'Yesterday';
+      if (diffDays < 7) return diffDays + 'd ago';
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    function renderNotes() {
+      var notes = loadNotes();
+      var search = (document.getElementById('notes-search-input').value || '').toLowerCase();
+      var sort = document.getElementById('notes-sort-select').value;
+
+      // Filter by group
+      if (notesFilterGroup !== 'all') {
+        notes = notes.filter(function(n) { return n.group === notesFilterGroup; });
+      }
+
+      // Filter by search
+      if (search) {
+        notes = notes.filter(function(n) {
+          return n.title.toLowerCase().indexOf(search) !== -1 ||
+                 n.body.toLowerCase().indexOf(search) !== -1 ||
+                 n.group.toLowerCase().indexOf(search) !== -1;
+        });
+      }
+
+      // Sort
+      if (sort === 'date') {
+        notes.sort(function(a, b) { return b.timestamp - a.timestamp; });
+      } else if (sort === 'group') {
+        notes.sort(function(a, b) { return a.group.localeCompare(b.group) || b.timestamp - a.timestamp; });
+      } else if (sort === 'title') {
+        notes.sort(function(a, b) { return a.title.localeCompare(b.title); });
+      }
+
+      var container = document.getElementById('notes-container');
+      var countLabel = document.getElementById('notes-count-label');
+      countLabel.textContent = notes.length + ' note' + (notes.length !== 1 ? 's' : '');
+
+      if (notes.length === 0) {
+        container.innerHTML = '<div style="padding:2rem;text-align:center;color:hsl(var(--muted-foreground));font-size:0.8125rem">No notes found</div>';
+        container.className = 'card';
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < notes.length; i++) {
+        var n = notes[i];
+        html += '<div class="note-card" onclick="openNoteModal(\'' + n.id + '\')">';
+        html += '<div class="note-card-header">';
+        html += '<span class="note-card-title">' + escapeHtml(n.title) + '</span>';
+        html += '<span class="note-card-time">' + formatNoteTime(n.timestamp) + '</span>';
+        html += '</div>';
+        html += '<div class="note-card-body">' + escapeHtml(n.body) + '</div>';
+        html += '<div class="note-card-footer">';
+        html += '<span class="note-group-tag ' + getGroupClass(n.group) + '">' + escapeHtml(n.group) + '</span>';
+        html += '<div class="note-actions-bar" style="margin-top:0;margin-left:auto">';
+        html += '<button class="note-action-btn" onclick="event.stopPropagation();openNoteModal(\'' + n.id + '\')"><i data-lucide="edit-3" style="width:10px;height:10px"></i> Edit</button>';
+        html += '<button class="note-action-btn delete" onclick="event.stopPropagation();deleteNote(\'' + n.id + '\')"><i data-lucide="trash-2" style="width:10px;height:10px"></i> Delete</button>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+      }
+
+      container.innerHTML = html;
+      container.className = notesViewMode === 'grid' ? 'notes-grid' : 'card';
+      lucide.createIcons();
+    }
+
+    function escapeHtml(str) {
+      var div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function filterNotes() {
+      renderNotes();
+    }
+
+    function filterNotesByGroup(group, btn) {
+      notesFilterGroup = group;
+      var chips = document.querySelectorAll('.notes-group-chip');
+      for (var i = 0; i < chips.length; i++) chips[i].classList.remove('active');
+      btn.classList.add('active');
+      renderNotes();
+    }
+
+    function setNotesView(mode) {
+      notesViewMode = mode;
+      document.getElementById('notes-view-list').classList.toggle('active', mode === 'list');
+      document.getElementById('notes-view-grid').classList.toggle('active', mode === 'grid');
+      renderNotes();
+    }
+
+    function openNoteModal(noteId) {
+      editingNoteId = noteId || null;
+      var titleEl = document.getElementById('note-edit-title');
+      var contentEl = document.getElementById('note-edit-content');
+      var groupEl = document.getElementById('note-edit-group');
+      var modalTitle = document.getElementById('note-modal-title');
+
+      if (noteId) {
+        var notes = loadNotes();
+        var note = notes.find(function(n) { return n.id === noteId; });
+        if (note) {
+          titleEl.value = note.title;
+          contentEl.value = note.body;
+          groupEl.value = note.group;
+          modalTitle.textContent = 'Edit Note';
+        }
+      } else {
+        titleEl.value = '';
+        contentEl.value = '';
+        groupEl.value = 'Clinical Notes';
+        modalTitle.textContent = 'New Note';
+      }
+
+      // Update group options with custom groups
+      updateGroupOptions(groupEl);
+
+      document.getElementById('note-modal-overlay').classList.add('show');
+      lucide.createIcons();
+    }
+
+    function closeNoteModal() {
+      document.getElementById('note-modal-overlay').classList.remove('show');
+      stopDictation();
+      editingNoteId = null;
+    }
+
+    function saveNote() {
+      var title = document.getElementById('note-edit-title').value.trim();
+      var body = document.getElementById('note-edit-content').value.trim();
+      var group = document.getElementById('note-edit-group').value;
+
+      if (!title) {
+        showToast('Please enter a title');
+        return;
+      }
+
+      var notes = loadNotes();
+      if (editingNoteId) {
+        for (var i = 0; i < notes.length; i++) {
+          if (notes[i].id === editingNoteId) {
+            notes[i].title = title;
+            notes[i].body = body;
+            notes[i].group = group;
+            notes[i].timestamp = Date.now();
+            break;
+          }
+        }
+        showToast('Note updated');
+      } else {
+        notes.unshift({
+          id: 'n' + Date.now(),
+          title: title,
+          body: body,
+          group: group,
+          timestamp: Date.now()
+        });
+        showToast('Note created');
+      }
+
+      saveNotesToStorage(notes);
+      closeNoteModal();
+      renderNotes();
+    }
+
+    function deleteNote(noteId) {
+      if (!confirm('Delete this note?')) return;
+      var notes = loadNotes();
+      notes = notes.filter(function(n) { return n.id !== noteId; });
+      saveNotesToStorage(notes);
+      showToast('Note deleted');
+      renderNotes();
+    }
+
+    function updateGroupOptions(selectEl) {
+      var notes = loadNotes();
+      var groups = ['Clinical Notes', 'Personal', 'Ideas'];
+      for (var i = 0; i < notes.length; i++) {
+        if (groups.indexOf(notes[i].group) === -1) {
+          groups.push(notes[i].group);
+        }
+      }
+      var current = selectEl.value;
+      selectEl.innerHTML = '';
+      for (var j = 0; j < groups.length; j++) {
+        var opt = document.createElement('option');
+        opt.value = groups[j];
+        opt.textContent = groups[j];
+        selectEl.appendChild(opt);
+      }
+      if (current && groups.indexOf(current) !== -1) {
+        selectEl.value = current;
+      }
+    }
+
+    // ==========================================
+    // QUICK DICTATE FAB
+    // ==========================================
+    function openQuickDictate() {
+      document.getElementById('quick-dictate-overlay').classList.add('show');
+      document.getElementById('quick-dictate-title').value = '';
+      document.getElementById('quick-dictate-content').value = '';
+      document.getElementById('quick-dictate-group').value = 'Clinical Notes';
+      lucide.createIcons();
+
+      // Auto-start dictation on the content field
+      if (speechRecognitionSupported) {
+        setTimeout(function() {
+          var micBtn = document.getElementById('quick-dictate-mic-btn');
+          if (micBtn) toggleDictation('quick-dictate-content', micBtn);
+        }, 500);
+      }
+    }
+
+    function closeQuickDictate() {
+      document.getElementById('quick-dictate-overlay').classList.remove('show');
+      stopDictation();
+    }
+
+    function saveQuickDictateNote() {
+      var title = document.getElementById('quick-dictate-title').value.trim();
+      var body = document.getElementById('quick-dictate-content').value.trim();
+      var group = document.getElementById('quick-dictate-group').value;
+
+      if (!body && !title) {
+        showToast('Please dictate or type something first');
+        return;
+      }
+
+      if (!title) {
+        // Auto-generate title from first few words
+        title = body.split(' ').slice(0, 5).join(' ');
+        if (body.split(' ').length > 5) title += '...';
+      }
+
+      var notes = loadNotes();
+      notes.unshift({
+        id: 'n' + Date.now(),
+        title: title,
+        body: body,
+        group: group,
+        timestamp: Date.now()
+      });
+      saveNotesToStorage(notes);
+      closeQuickDictate();
+      showToast('Quick note saved!');
+
+      // If we're on the notes page, refresh
+      var notesPage = document.getElementById('page-notes');
+      if (notesPage && notesPage.classList.contains('active')) {
+        renderNotes();
+      }
+    }
+
+    // ==========================================
+    // Show/hide FAB based on app state
+    // ==========================================
+    var origShowPage = showPage;
+    showPage = function(pageId) {
+      origShowPage(pageId);
+      // Render notes when navigating to notes page
+      if (pageId === 'notes') {
+        renderNotes();
+      }
+    };
+
     // Page display rules
     var pageStyle = document.createElement('style');
     pageStyle.textContent = '.page { display: none; } .page.active { display: block; }';
     document.head.appendChild(pageStyle);
 
     // Boot
+    hideMicButtonsIfUnsupported();
     initApp();
   </script>
 </body>

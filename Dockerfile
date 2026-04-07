@@ -9,6 +9,10 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Copy static files
 COPY index.html /usr/share/nginx/html/index.html
 COPY landing.html /usr/share/nginx/html/landing.html
+COPY favicon.svg /usr/share/nginx/html/favicon.svg
+COPY manifest.json /usr/share/nginx/html/manifest.json
+COPY robots.txt /usr/share/nginx/html/robots.txt
+COPY sitemap.xml /usr/share/nginx/html/sitemap.xml
 
 # Cloud Run requires port 8080
 EXPOSE 8080

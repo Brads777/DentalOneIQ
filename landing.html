@@ -13,6 +13,13 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dentaloneiq.toolsiq.ai">
 
+  <!-- Favicon & PWA -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0891b2">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -716,9 +723,36 @@
     html {
       scroll-behavior: smooth;
     }
+
+    /* Skip Navigation Link */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      z-index: 1000;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0 0 var(--radius) 0;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
   </style>
+
+  <!-- TODO: Replace PostHog API key with real project key -->
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    // Initialize with placeholder - Brad will add real API key
+    // posthog.init('phc_REPLACE_WITH_REAL_KEY', {api_host: 'https://us.i.posthog.com'})
+  </script>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <!-- Beta Banner -->
   <div class="beta-banner">
@@ -726,9 +760,9 @@
   </div>
 
   <!-- Navigation -->
-  <nav class="nav">
+  <nav class="nav" role="navigation" aria-label="Main navigation">
     <div class="nav-inner">
-      <a href="https://dentaloneiq.toolsiq.ai" class="nav-logo">
+      <a href="https://dentaloneiq.toolsiq.ai" class="nav-logo" aria-label="DentalOneIQ home">
         Dental<span class="logo-one">One</span>IQ
       </a>
       <ul class="nav-links">
@@ -737,14 +771,14 @@
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="#waitlist" class="nav-cta">Join Waitlist</a></li>
       </ul>
-      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
         <i data-lucide="menu" width="24" height="24"></i>
       </button>
     </div>
   </nav>
 
   <!-- Hero -->
-  <section class="hero">
+  <section id="main-content" class="hero">
     <div class="container">
       <div class="hero-badge">
         <span class="dot"></span>
@@ -1031,7 +1065,7 @@
   </section>
 
   <!-- Footer -->
-  <footer class="footer">
+  <footer class="footer" role="contentinfo">
     <div class="footer-inner">
       <div class="footer-brand">
         <div class="footer-logo">DentalOneIQ</div>
@@ -1096,9 +1130,18 @@
         alert('Please enter a valid email address.');
         return;
       }
+      // PostHog: track waitlist signup
+      if (typeof posthog !== 'undefined') {
+        posthog.capture('feature_used', {feature: 'waitlist_signup'});
+      }
       // In production, this would POST to an API
       alert('Thanks! We\'ll reach out when beta spots open for ' + email);
       document.getElementById('waitlistEmail').value = '';
+    }
+
+    // PostHog: track landing page view
+    if (typeof posthog !== 'undefined') {
+      posthog.capture('page_viewed', {page: 'landing'});
     }
   </script>
 </body>

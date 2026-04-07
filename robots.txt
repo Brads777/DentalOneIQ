@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Allow: /landing.html
+Sitemap: https://dentaloneiq.toolsiq.ai/sitemap.xml
